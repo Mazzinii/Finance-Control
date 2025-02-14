@@ -13,10 +13,10 @@ namespace Person.Route
             var routes = app.MapGroup("Person");
             var routeCreate = app.MapGroup("Person/Read");
             var routeUpdate = app.MapGroup("Person/Update");
+            var routeDelete = app.MapGroup("Person/Delete");
 
 
-            //Person
-
+            //Create
             routes.MapPost("Create",
                 async (PersonRequest req, PersonContext context) =>
                 {
@@ -25,6 +25,8 @@ namespace Person.Route
                     await context.SaveChangesAsync();
                 });
 
+
+            //Read
             routeCreate.MapGet( "{id:Guid}",
                 async (Guid id,  PersonContext context) =>
                 {
@@ -38,8 +40,9 @@ namespace Person.Route
 
                 });
 
-            routeUpdate.MapPut("{id:Guid}",
-                async (Guid id, UpdateRequest req, PersonContext context) =>
+            //Update
+            routeUpdate.MapPatch("{id:Guid}",
+                async (Guid id, PersonRequest req, PersonContext context) =>
                 {
                     var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -53,6 +56,24 @@ namespace Person.Route
                     }
 
                 });
+
+            //Delete
+            routeDelete.MapDelete("{id:Guid}",
+                async (Guid id, PersonContext context) =>
+                {
+                    var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+
+                    if (person == null)
+                        return Results.NotFound();
+                    else
+                    {
+                        context.Remove(person);
+                        await context.SaveChangesAsync();
+                        return Results.Ok(person);
+                    }
+                });
+
+
 
         }
     }
