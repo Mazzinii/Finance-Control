@@ -7,10 +7,13 @@ namespace Person.Data
     {
         public required DbSet<PersonModel> People { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source = person.sqlite");
             base.OnConfiguring(optionsBuilder);
         }
+
+
     }
 }
