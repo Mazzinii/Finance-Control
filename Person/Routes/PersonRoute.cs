@@ -18,9 +18,9 @@ namespace Person.Route
 
             //Create
             routes.MapPost("Create",
-                async (PersonRequest req, PersonContext context) =>
+                async (PersonRequest request, PersonContext context) =>
                 {
-                    var person = new PersonModel(req.name, req.email, req.password);
+                    var person = new PersonModel(request.name, request.email, request.password);
                     await context.AddAsync(person);
                     await context.SaveChangesAsync();
                 });

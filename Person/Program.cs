@@ -1,5 +1,6 @@
 using Person.Data;
 using Person.Route;
+using Person.Routes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<PersonContext>();
+
 
 var app = builder.Build();
 
@@ -20,5 +22,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.PersonRoutes();
+app.TransationRoutes();
 app.Run();
 

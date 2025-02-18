@@ -11,7 +11,7 @@ using Person.Data;
 namespace Person.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    [Migration("20250212195002_Initial")]
+    [Migration("20250217205304_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -41,6 +41,44 @@ namespace Person.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("People");
+                });
+
+            modelBuilder.Entity("Person.Models.TransationModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Transation");
+                });
+
+            modelBuilder.Entity("Person.Models.TransationModel", b =>
+                {
+                    b.HasOne("Person.Models.PersonModel", "Person")
+                        .WithMany("Transations")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Person.Models.PersonModel", b =>
+                {
+                    b.Navigation("Transations");
                 });
 #pragma warning restore 612, 618
         }

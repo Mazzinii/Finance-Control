@@ -6,6 +6,7 @@
         public string Name { get; private set; } 
         public string Email { get; private set; } 
         public string Password { get; private set; }
+        public List<TransationModel> Transations { get; set; } = new List<TransationModel>();
 
         public PersonModel(string name, string email, string password)
         {
