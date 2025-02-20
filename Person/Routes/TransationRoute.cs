@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Person.Data;
+﻿using Person.Data;
 using Person.Models;
 
 namespace Person.Routes

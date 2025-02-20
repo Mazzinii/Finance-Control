@@ -1,6 +1,7 @@
 using Person.Data;
-using Person.Route;
+using Person.Models;
 using Person.Routes;
+using Person.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<PersonContext>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
+builder.Services.AddScoped<LoginHashRequest>();
+
 
 
 var app = builder.Build();

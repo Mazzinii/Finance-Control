@@ -1,9 +1,8 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
 
-namespace Person.Route
+namespace Person.Routes
 {
     public static class PersonRoute
     {
@@ -11,23 +10,29 @@ namespace Person.Route
         {
             //mapping routes
             var routes = app.MapGroup("Person");
-            var routeCreate = app.MapGroup("Person/Read");
-            var routeUpdate = app.MapGroup("Person/Update");
-            var routeDelete = app.MapGroup("Person/Delete");
+
 
 
             //Create
             routes.MapPost("Create",
                 async (PersonRequest request, PersonContext context) =>
                 {
+                    
                     var person = new PersonModel(request.name, request.email, request.password);
                     await context.AddAsync(person);
                     await context.SaveChangesAsync();
                 });
 
+            //Login
+            routes.MapPost("Login",
+                async (LoginHashRequest.Request req, LoginHashRequest login) =>
+                {
+                    var person = await login.Handle(req);
+
+                });
 
             //Read
-            routeCreate.MapGet( "{id:Guid}",
+            routes.MapGet( "{id:Guid}",
                 async (Guid id,  PersonContext context) =>
                 {
 
@@ -41,8 +46,8 @@ namespace Person.Route
                 });
 
             //Update
-            routeUpdate.MapPatch("{id:Guid}",
-                async (Guid id, PersonRequest req, PersonContext context) =>
+            routes.MapPatch("{id:Guid}",
+                async (Guid id,PersonRequest req, PersonContext context) =>
                 {
                     var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -58,7 +63,7 @@ namespace Person.Route
                 });
 
             //Delete
-            routeDelete.MapDelete("{id:Guid}",
+            routes.MapDelete("{id:Guid}",
                 async (Guid id, PersonContext context) =>
                 {
                     var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
