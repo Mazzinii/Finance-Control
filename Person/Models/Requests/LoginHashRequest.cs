@@ -1,25 +1,25 @@
-﻿using System.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Services;
 
-namespace Person.Models
+namespace Person.Models.Requests
 {
     public class LoginHashRequest
     {
         private readonly PersonContext _personContext;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly TokenService _tokenService;
 
-        public LoginHashRequest(PersonContext personContext, IPasswordHasher passwordHasher)
+        public LoginHashRequest(PersonContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
         {
             _personContext = personContext;
             _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
         }
 
-        public record Request(string Email, string Password);
+        public record LoginRequest(string Email, string Password);
 
-        public async Task<PersonModel> Handle(Request req)
+        public async Task<string> Handle(LoginRequest req)
         {
             PersonModel? person = await _personContext.People
                 .FirstOrDefaultAsync(x => x.Email == req.Email);
@@ -32,7 +32,9 @@ namespace Person.Models
             if (!verified)
                 throw new Exception("The password is incorrect");
 
-            return person;
+            string token = _tokenService.GenerateToken(person);
+
+            return token;
         }
     }
 }

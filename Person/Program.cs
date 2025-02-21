@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Person.Data;
-using Person.Models;
+using Person.Models.Requests;
 using Person.Routes;
 using Person.Services;
 
@@ -12,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<PersonContext>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddScoped<LoginHashRequest>();
+builder.Services.AddSingleton<TokenService>();
 
 
 

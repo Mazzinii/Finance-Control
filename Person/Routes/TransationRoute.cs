@@ -1,5 +1,6 @@
 ﻿using Person.Data;
 using Person.Models;
+using Person.Models.Requests;
 
 namespace Person.Routes
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
+using Person.Models.Requests;
 
 namespace Person.Routes
 {
@@ -25,7 +26,7 @@ namespace Person.Routes
 
             //Login
             routes.MapPost("Login",
-                async (LoginHashRequest.Request req, LoginHashRequest login) =>
+                async (LoginHashRequest.LoginRequest req, LoginHashRequest login) =>
                 {
                     var person = await login.Handle(req);
 
