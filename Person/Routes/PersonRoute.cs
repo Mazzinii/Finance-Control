@@ -2,6 +2,7 @@
 using Person.Data;
 using Person.Models;
 using Person.Models.Requests;
+using Person.Services;
 
 namespace Person.Routes
 {
@@ -19,30 +20,29 @@ namespace Person.Routes
                 async (PersonRequest request, PersonContext context) =>
                 {
                     
-                    var person = new PersonModel(request.name, request.email, request.password);
+                    var person = new PersonModel(request.Name, request.Email, request.Password);
                     await context.AddAsync(person);
                     await context.SaveChangesAsync();
+                    return Results.Ok(person);
                 });
 
             //Login
             routes.MapPost("Login",
-                async (LoginHashRequest.LoginRequest req, LoginHashRequest login) =>
+                async (LoginHashRequests.LoginRequest req, LoginHashRequests login) =>
                 {
                     var person = await login.Handle(req);
+                    return Results.Ok(person);
 
                 });
 
             //Read
-            routes.MapGet( "{id:Guid}",
-                async (Guid id,  PersonContext context) =>
+            routes.MapGet("Read",
+                async (  PersonContext context) =>
                 {
 
-                    var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+                    var person = await context.People.ToListAsync();
 
-                    if (person == null)
-                        return Results.NotFound();
-
-                    else return Results.Ok(person);
+                    return Results.Ok(person);
 
                 });
 
@@ -56,7 +56,7 @@ namespace Person.Routes
                         return Results.NotFound();
                     else
                     {
-                        person.ChangeAttributes(req.name,req.password,req.email);
+                        person.ChangeAttributes(req.Name,req.Password,req.Email);
                         await context.SaveChangesAsync();
                         return Results.Ok(person);
                     }

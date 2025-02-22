@@ -1,7 +1,7 @@
 ﻿namespace Person.Models.Requests
 {
     //Person
-    public record PersonRequest(string name, string email, string password);
+    public record PersonRequest(string Name, string Email, string Password);
 
 
 }

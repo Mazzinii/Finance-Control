@@ -1,4 +1,5 @@
-﻿using Person.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Person.Data;
 using Person.Models;
 using Person.Models.Requests;
 
@@ -8,12 +9,34 @@ namespace Person.Routes
     {
         public static void TransationRoutes(this WebApplication app)
         {
-            app.MapPost("Transation/Create", async (TransationRequest request, PersonContext context) =>
+            var routes = app.MapGroup("Transition");
+
+
+            //Create
+            routes.MapPost("Create", async (TransationRequest request, PersonContext context) =>
             {
-                var transation = new TransationModel(request.value, request.date, request.personId);
+                var transation = new TransationModel(request.Value, request.Date, request.PersonId);
                 await context.AddAsync(transation);
                 await context.SaveChangesAsync();
             });
+
+            //Read
+            routes.MapGet("{id:Guid}",
+                async (Guid id, PersonContext context) =>
+                {
+                    var transation = await context.Transation.Where(x => x.PersonId == id).ToListAsync();
+                    if (transation == null) return Results.NotFound();
+                    else return Results.Ok(transation);
+                });
+
+            //Update
+
+            //Delete
+
+
+
+
+            
         }
     }
 }

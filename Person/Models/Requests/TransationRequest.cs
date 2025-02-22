@@ -2,6 +2,6 @@
 {
 
 
-    public record TransationRequest(int value, DateTime date, Guid personId);
+    public record TransationRequest(int Value, DateTime Date, Guid PersonId);
 
 }

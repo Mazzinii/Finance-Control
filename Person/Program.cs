@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<PersonContext>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
-builder.Services.AddScoped<LoginHashRequest>();
+builder.Services.AddScoped<LoginHashRequests>();
 builder.Services.AddSingleton<TokenService>();
 
 

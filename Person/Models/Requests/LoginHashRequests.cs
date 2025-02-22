@@ -4,13 +4,13 @@ using Person.Services;
 
 namespace Person.Models.Requests
 {
-    public class LoginHashRequest
+    public class LoginHashRequests
     {
         private readonly PersonContext _personContext;
         private readonly IPasswordHasher _passwordHasher;
         private readonly TokenService _tokenService;
 
-        public LoginHashRequest(PersonContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
+        public LoginHashRequests(PersonContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
         {
             _personContext = personContext;
             _passwordHasher = passwordHasher;
