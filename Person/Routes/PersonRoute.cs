@@ -21,9 +21,19 @@ namespace Person.Routes
                 {
                     
                     var person = new PersonModel(request.Name, request.Email, request.Password);
-                    await context.AddAsync(person);
-                    await context.SaveChangesAsync();
-                    return Results.Ok(person);
+                    
+                    //checking if the email is not registered 
+                    var hasEmail = context.People.FirstOrDefaultAsync(x => x.Email == request.Email);
+
+                    if (hasEmail != null) return Results.BadRequest("Email is alredy registered");
+                    
+                   else
+                    {
+                        await context.AddAsync(person);
+                        await context.SaveChangesAsync();
+                        return Results.Ok(person);
+                    } 
+                    
                 });
 
             //Login
