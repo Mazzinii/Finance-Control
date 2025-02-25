@@ -20,7 +20,7 @@ namespace Person.Services
         {
             var key = _configuration["Key:Jwt"];
             var tokenConfig = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var credentials = new SigningCredentials(tokenConfig, SecurityAlgorithms.HmacSha256Signature);
+            var credentials = new SigningCredentials(tokenConfig, SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -38,7 +38,7 @@ namespace Person.Services
             var token = tokenhandler.CreateToken(tokenDescriptor);
             
 
-            return token;
+            return $"Token: {token} Id: {person.Id}";
         }
     }
 }

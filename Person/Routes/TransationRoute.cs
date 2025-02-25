@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
 using Person.Models.Requests;
@@ -18,7 +19,8 @@ namespace Person.Routes
                 var transation = new TransationModel(request.Value, request.Date, request.PersonId);
                 await context.AddAsync(transation);
                 await context.SaveChangesAsync();
-            });
+            })
+                .RequireAuthorization();
 
             //Read
             routes.MapGet("{id:Guid}",
