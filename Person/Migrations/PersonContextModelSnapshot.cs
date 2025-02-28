@@ -49,6 +49,10 @@ namespace Person.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("TEXT");
 

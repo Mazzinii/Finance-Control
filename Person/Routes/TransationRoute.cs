@@ -14,12 +14,14 @@ namespace Person.Routes
 
 
             //Create
-            routes.MapPost("Create", async (TransationRequest request, PersonContext context) =>
-            {
-                var transation = new TransationModel(request.Value, request.Date, request.PersonId);
+            routes.MapPost("Create", 
+                async (TransationRequest request, PersonContext context) =>
+                {
+                var transation = new TransationModel(request.Description, request.Value, request.Date, request.PersonId);
                 await context.AddAsync(transation);
                 await context.SaveChangesAsync();
-            })
+                return Results.Ok(transation);
+                })
                 .RequireAuthorization();
 
             //Read
@@ -29,11 +31,42 @@ namespace Person.Routes
                     var transation = await context.Transation.Where(x => x.PersonId == id).ToListAsync();
                     if (transation == null) return Results.NotFound();
                     else return Results.Ok(transation);
-                });
+                })
+                .RequireAuthorization();
 
             //Update
+            routes.MapPatch("{id:guid}",
+                async (Guid id, TransationUpdateRequest req, PersonContext context) =>
+                {
+                    var transation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
 
+                    if (transation == null)
+                        return Results.NotFound();
+                    else
+                    {
+                        transation.ChangeAttributes(req.Description, req.Value, req.Date);
+                        await context.SaveChangesAsync();
+                        return Results.Ok(transation);
+                    }
+                })
+                .RequireAuthorization();
+                    
             //Delete
+            routes.MapDelete("{id:guid}", 
+                async (Guid id, PersonContext context) =>
+                {
+                    var transation = context.Transation.FirstOrDefault(x => x.Id == id);
+
+                    if (transation == null)
+                        return Results.NotFound();
+                    else
+                    {
+                        context.Remove(transation);
+                        await context.SaveChangesAsync();
+                        return Results.Ok();
+                    }
+                })
+                .RequireAuthorization();
 
 
 

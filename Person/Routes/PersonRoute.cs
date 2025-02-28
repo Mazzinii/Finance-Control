@@ -23,7 +23,7 @@ namespace Person.Routes
                     var person = new PersonModel(request.Name, request.Email, request.Password);
                     
                     //checking if the email is not registered 
-                    var hasEmail = context.People.FirstOrDefaultAsync(x => x.Email == request.Email);
+                    var hasEmail = await context.People.FirstOrDefaultAsync(x => x.Email == request.Email);
 
                     if (hasEmail != null) return Results.BadRequest("Email is alredy registered");
                     
@@ -58,7 +58,7 @@ namespace Person.Routes
 
             //Update
             routes.MapPatch("{id:Guid}",
-                async (Guid id,PersonRequest req, PersonContext context) =>
+                async (Guid id, PersonRequest req, PersonContext context) =>
                 {
                     var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -66,12 +66,13 @@ namespace Person.Routes
                         return Results.NotFound();
                     else
                     {
-                        person.ChangeAttributes(req.Name,req.Password,req.Email);
+                        person.ChangeAttributes(req.Name, req.Password, req.Email);
                         await context.SaveChangesAsync();
                         return Results.Ok(person);
                     }
 
-                });
+                })
+                .RequireAuthorization();
 
             //Delete
             routes.MapDelete("{id:Guid}",
@@ -87,7 +88,9 @@ namespace Person.Routes
                         await context.SaveChangesAsync();
                         return Results.Ok(person);
                     }
-                });
+                })
+                .RequireAuthorization();
+
 
 
 
