@@ -17,7 +17,7 @@ namespace Person.Routes
             routes.MapPost("Create", 
                 async (TransationRequest request, PersonContext context) =>
                 {
-                var transation = new TransationModel(request.Description, request.Value, request.Date, request.PersonId);
+                var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
                 await context.AddAsync(transation);
                 await context.SaveChangesAsync();
                 return Results.Ok(transation);

@@ -11,7 +11,7 @@ using Person.Data;
 namespace Person.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    [Migration("20250228000007_Initial")]
+    [Migration("20250306140316_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -57,6 +57,10 @@ namespace Person.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("PersonId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Value")

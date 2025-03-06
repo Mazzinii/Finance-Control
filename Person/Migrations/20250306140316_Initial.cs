@@ -31,6 +31,7 @@ namespace Person.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false),
                     Value = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PersonId = table.Column<Guid>(type: "TEXT", nullable: false)

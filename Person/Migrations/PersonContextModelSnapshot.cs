@@ -56,6 +56,10 @@ namespace Person.Migrations
                     b.Property<Guid>("PersonId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Value")
                         .HasColumnType("INTEGER");
 

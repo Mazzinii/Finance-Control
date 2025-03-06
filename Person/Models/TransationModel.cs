@@ -4,15 +4,17 @@
     {
         public Guid Id { get; init; }
         public string Description { get; private set; }
+        public string Status { get; private set; }
         public int Value { get; private set; }
         public DateTime Date{ get;  private set; }
         public Guid PersonId { get; set; }
         public PersonModel Person { get; set; } = null!;
 
-        public TransationModel(string description ,int value, DateTime date, Guid personId)
+        public TransationModel(string description, string status ,int value, DateTime date, Guid personId)
         {
             Id = Guid.NewGuid();
             Description = description;
+            Status = status;
             Value = value;
             Date = date;
             PersonId = personId;
