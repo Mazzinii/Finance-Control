@@ -6,11 +6,11 @@ namespace Person.Models.Requests
 {
     public class LoginHashRequests
     {
-        private readonly PersonContext _personContext;
+        private readonly PersonTransationContext _personContext;
         private readonly IPasswordHasher _passwordHasher;
         private readonly TokenService _tokenService;
 
-        public LoginHashRequests(PersonContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
+        public LoginHashRequests(PersonTransationContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
         {
             _personContext = personContext;
             _passwordHasher = passwordHasher;

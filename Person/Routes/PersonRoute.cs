@@ -17,7 +17,7 @@ namespace Person.Routes
 
             //Create
             routes.MapPost("Create",
-                async (PersonRequest request, PersonContext context) =>
+                async (PersonRequest request, PersonTransationContext context) =>
                 {
                     
                     var person = new PersonModel(request.Name, request.Email, request.Password);
@@ -47,7 +47,7 @@ namespace Person.Routes
 
             //Read
             routes.MapGet("Read",
-                async (  PersonContext context) =>
+                async (  PersonTransationContext context) =>
                 {
 
                     var person = await context.People.ToListAsync();
@@ -58,7 +58,7 @@ namespace Person.Routes
 
             //Update
             routes.MapPatch("{id:Guid}",
-                async (Guid id, PersonRequest req, PersonContext context) =>
+                async (Guid id, PersonRequest req, PersonTransationContext context) =>
                 {
                     var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -76,7 +76,7 @@ namespace Person.Routes
 
             //Delete
             routes.MapDelete("{id:Guid}",
-                async (Guid id, PersonContext context) =>
+                async (Guid id, PersonTransationContext context) =>
                 {
                     var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
 

@@ -15,7 +15,7 @@ namespace Person.Routes
 
             //Create
             routes.MapPost("Create", 
-                async (TransationRequest request, PersonContext context) =>
+                async (TransationRequest request, PersonTransationContext context) =>
                 {
                 var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
                 await context.AddAsync(transation);
@@ -26,7 +26,7 @@ namespace Person.Routes
 
             //Read
             routes.MapGet("{id:Guid}",
-                async (Guid id, PersonContext context) =>
+                async (Guid id, PersonTransationContext context) =>
                 {
                     var transation = await context.Transation.Where(x => x.PersonId == id).ToListAsync();
                     if (transation == null) return Results.NotFound();
@@ -36,7 +36,7 @@ namespace Person.Routes
 
             //Update
             routes.MapPatch("{id:guid}",
-                async (Guid id, TransationUpdateRequest req, PersonContext context) =>
+                async (Guid id, TransationUpdateRequest req, PersonTransationContext context) =>
                 {
                     var transation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -53,7 +53,7 @@ namespace Person.Routes
                     
             //Delete
             routes.MapDelete("{id:guid}", 
-                async (Guid id, PersonContext context) =>
+                async (Guid id, PersonTransationContext context) =>
                 {
                     var transation = context.Transation.FirstOrDefault(x => x.Id == id);
 

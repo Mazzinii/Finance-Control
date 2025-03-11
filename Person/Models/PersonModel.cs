@@ -26,6 +26,7 @@ namespace Person.Models
             Password = password;
         }
 
+
         public void ChangeAttributes(string name, string password, string email)
         {
             if (name != null) Name = name;

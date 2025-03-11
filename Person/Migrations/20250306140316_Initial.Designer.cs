@@ -10,7 +10,7 @@ using Person.Data;
 
 namespace Person.Migrations
 {
-    [DbContext(typeof(PersonContext))]
+    [DbContext(typeof(PersonTransationContext))]
     [Migration("20250306140316_Initial")]
     partial class Initial
     {

@@ -4,10 +4,12 @@ using Person.Models;
 
 namespace Person.Data
 {
-    public class PersonContext : DbContext
+    public class PersonTransationContext : DbContext
     {
-        public required DbSet<PersonModel> People { get; set; }
-        public required DbSet<TransationModel> Transation { get; set; }
+        public  DbSet<PersonModel> People { get; set; }
+        public  DbSet<TransationModel> Transation { get; set; }
+
+        public PersonTransationContext(DbContextOptions options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
