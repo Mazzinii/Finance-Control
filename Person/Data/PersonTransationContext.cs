@@ -13,8 +13,12 @@ namespace Person.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = person.sqlite");
-            base.OnConfiguring(optionsBuilder);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source = person.sqlite");
+                base.OnConfiguring(optionsBuilder);
+            }
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

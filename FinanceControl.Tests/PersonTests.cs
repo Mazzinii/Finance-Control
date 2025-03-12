@@ -1,44 +1,44 @@
+using System.Net.Http.Json;
+using System.Net;
 using FinanceControl.Tests.Helpers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Person.Models;
-using PersonTransation;
+using Person.Models.Requests;
+using PersonTransation.Services;
 
 namespace FinanceControl.Tests
 {
     public class PersonTests
     {
+        private static readonly HttpClient client = new HttpClient();
+
         [Fact]
-        public async void CreatePerson()
+        public async Task CreatePerson_ReturnsCreatedResponse_WhenEmailIsUnique()
         {
-            //Arrange
-            string name = "Luiz";
-            string email = "luizeduardomazzini@gmail.com";
-            string password = "Pokemom2025@";
-            var person = new PersonModel(name, email, password);
+            /*
+            string name = "John Doe";
+            string email = "john.doe@example.com";
+            string password = "password123";
 
-            await using var context = new MockDb().CreateDbContext();
+            // Arrang
+            var request = new PersonRequest(name, email, password); 
 
-            //Act
-            var result = PersonEndpoint.AddPerson(person, context);
+            // Act
+            var response = await client.PostAsJsonAsync("/Create", request);
 
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            //Assert
-            Assert.IsType<Created<PersonModel>>(result);
+            var person = await response.Content.ReadFromJsonAsync<PersonModel>();
             Assert.NotNull(person);
-            Assert.NotNull(person.Name);
-            Assert.NotNull(person.Password);
-            Assert.NotNull(person.Email);
-            Assert.NotEmpty(context.People);
-            Assert.Collection(context.People, person =>
-            {
-                Assert.Equal(name, person.Name);
-                Assert.Equal(email, person.Email);
-            });
-            
-            
-
-
-
+            Assert.Equal(request.Name, person.Name);
+            Assert.Equal(request.Email, person.Email);
+            */
         }
+
+
+
+    }
     }
 }

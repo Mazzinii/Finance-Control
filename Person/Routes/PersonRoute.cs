@@ -29,9 +29,9 @@ namespace Person.Routes
                     
                    else
                     {
-                        await context.AddAsync(person);
+                        context.Add(person);
                         await context.SaveChangesAsync();
-                        return Results.Ok(person);
+                        return TypedResults.Created($"/Person/{person.Id}", person);
                     } 
                     
                 });
