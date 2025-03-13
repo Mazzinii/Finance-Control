@@ -13,9 +13,9 @@ namespace FinanceControl.Tests.Helpers
                 .UseInMemoryDatabase($"InMemoryTestDb - {DateTime.Now.ToFileTimeUtc()}")
                 .Options;
 
-            var context = new PersonTransationContext(options);
+            return new PersonTransationContext(options);
 
-            return context;
+            
         }
     }
 }

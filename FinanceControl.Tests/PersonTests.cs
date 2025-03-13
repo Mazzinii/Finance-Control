@@ -1,44 +1,43 @@
-using System.Net.Http.Json;
-using System.Net;
 using FinanceControl.Tests.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Person.Models;
-using Person.Models.Requests;
 using PersonTransation.Services;
 
 namespace FinanceControl.Tests
 {
     public class PersonTests
     {
-        private static readonly HttpClient client = new HttpClient();
 
         [Fact]
-        public async Task CreatePerson_ReturnsCreatedResponse_WhenEmailIsUnique()
+        public async Task CreatePerson()
         {
-            /*
+            // Arrange
             string name = "John Doe";
             string email = "john.doe@example.com";
             string password = "password123";
 
-            // Arrang
-            var request = new PersonRequest(name, email, password); 
+            var service = new PersonService();
+            var person = new PersonModel(name, email, password);
+            var context = new MockDb().CreateDbContext();
 
             // Act
-            var response = await client.PostAsJsonAsync("/Create", request);
+            await service.AddPerson(person, context);
+            var personCOunt = context.People.Count();
+            Console.WriteLine(personCOunt);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-
-            var person = await response.Content.ReadFromJsonAsync<PersonModel>();
             Assert.NotNull(person);
-            Assert.Equal(request.Name, person.Name);
-            Assert.Equal(request.Email, person.Email);
-            */
+            Assert.NotNull(person.Name);
+            Assert.NotNull(person.Email);
+            Assert.NotNull(person.Password);
+            Assert.Collection(context.People, person =>
+            {
+                Assert.Equal(name, person.Name);
+                Assert.Equal(email, person.Email);
+            });
+
+
         }
 
 
-
-    }
     }
 }

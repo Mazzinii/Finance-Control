@@ -2,7 +2,7 @@
 using Person.Data;
 using Person.Models;
 using Person.Models.Requests;
-using Person.Services;
+using PersonTransation.Services;
 
 namespace Person.Routes
 {
@@ -17,22 +17,14 @@ namespace Person.Routes
 
             //Create
             routes.MapPost("Create",
-                async (PersonRequest request, PersonTransationContext context) =>
+                async (PersonRequest request, PersonTransationContext context, PersonService service) =>
                 {
-                    
                     var person = new PersonModel(request.Name, request.Email, request.Password);
-                    
-                    //checking if the email is not registered 
-                    var hasEmail = await context.People.FirstOrDefaultAsync(x => x.Email == request.Email);
 
-                    if (hasEmail != null) return Results.BadRequest("Email is alredy registered");
+                    return await service.AddPerson(person, context);
+
                     
-                   else
-                    {
-                        context.Add(person);
-                        await context.SaveChangesAsync();
-                        return TypedResults.Created($"/Person/{person.Id}", person);
-                    } 
+           
                     
                 });
 
@@ -47,7 +39,7 @@ namespace Person.Routes
 
             //Read
             routes.MapGet("Read",
-                async (  PersonTransationContext context) =>
+                async (PersonTransationContext context) =>
                 {
 
                     var person = await context.People.ToListAsync();

@@ -28,8 +28,8 @@ namespace PersonTransation.Services
                 else
                 {
                     // adiciona pessoa no banco de dados e salva alteraçõe
-                    context.AddAsync(person);
-                    context.SaveChangesAsync();
+                    context.Add(person);
+                    await context.SaveChangesAsync();
                     //retorna response 201 created com a localização do recurso criado
                     return TypedResults.Created($"/Person/{person.Id}", person);
                 }
@@ -47,8 +47,18 @@ namespace PersonTransation.Services
         {
             var hasEmail = await context.People.FirstOrDefaultAsync(x => x.Email == person.Email);
 
-            if (hasEmail != null) return false;
-            else return true;
+            if (hasEmail != null) return true;
+            else return false;
+        }
+
+
+        public async Task<IResult> GetPerson (PersonTransationContext context, int itemperpage)
+        {
+            var person = await context.People.ToListAsync();
+
+            var pagination = person.Skip(0).Take(itemperpage);
+
+            return TypedResults.Ok(pagination);
         }
     }
 }

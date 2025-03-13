@@ -6,6 +6,7 @@ using Person.Extensions;
 using Person.Models.Requests;
 using Person.Routes;
 using Person.Services;
+using PersonTransation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,8 @@ builder.Services.AddSwaggerGenWithAuth();
 builder.Services.AddScoped<PersonTransationContext>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddScoped<LoginHashRequests>();
+builder.Services.AddScoped<PersonService>();
 builder.Services.AddSingleton<TokenService>();
-
 builder.Services.AddAuthorization();
 
 //add auth JWT token
