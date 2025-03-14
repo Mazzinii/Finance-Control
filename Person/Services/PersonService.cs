@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
 
 namespace PersonTransation.Services
 {
-    public class PersonService
+    public class PersonService 
     {
 
-        public async Task<IResult> AddPerson(PersonModel person, PersonTransationContext context)
+        public async Task<IResult> Create(PersonModel person, PersonTransationContext context)
         {
             //validando entrada
             if(person == null || context == null)
@@ -52,7 +52,7 @@ namespace PersonTransation.Services
         }
 
 
-        public async Task<IResult> GetPerson (PersonTransationContext context, int itemperpage)
+        public async Task<IResult> Get(PersonTransationContext context, int itemperpage)
         {
             var person = await context.People.ToListAsync();
 
@@ -60,5 +60,21 @@ namespace PersonTransation.Services
 
             return TypedResults.Ok(pagination);
         }
+
+        public async Task<IResult> Patch(PersonModel person, PersonTransationContext context, Guid id)
+        {
+            var hasId = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (hasId == null)
+                return TypedResults.NotFound();
+            else
+            {
+                hasId.ChangeAttributes(person.Name, person.Password, person.Email);
+                await context.SaveChangesAsync();
+                return TypedResults.Ok(person);
+            }
+        }
+
+
     }
 }

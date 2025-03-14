@@ -9,7 +9,7 @@ namespace Person.Data
         public  DbSet<PersonModel> People { get; set; }
         public  DbSet<TransationModel> Transation { get; set; }
 
-        public PersonTransationContext(DbContextOptions options) : base(options) { }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

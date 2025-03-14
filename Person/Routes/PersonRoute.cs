@@ -17,15 +17,11 @@ namespace Person.Routes
 
             //Create
             routes.MapPost("Create",
-                async (PersonRequest request, PersonTransationContext context, PersonService service) =>
+                async (PersonRequest req, PersonTransationContext context, PersonService service) =>
                 {
-                    var person = new PersonModel(request.Name, request.Email, request.Password);
+                    var person = new PersonModel(req.Name, req.Email, req.Password);
 
-                    return await service.AddPerson(person, context);
-
-                    
-           
-                    
+                    return await service.Create(person, context);              
                 });
 
             //Login
@@ -39,29 +35,20 @@ namespace Person.Routes
 
             //Read
             routes.MapGet("Read",
-                async (PersonTransationContext context) =>
+                async (int page,PersonTransationContext context, PersonService service) =>
                 {
 
-                    var person = await context.People.ToListAsync();
-
-                    return Results.Ok(person);
+                     return await service.Get(context, page);
 
                 });
 
             //Update
             routes.MapPatch("{id:Guid}",
-                async (Guid id, PersonRequest req, PersonTransationContext context) =>
+                async (Guid id, PersonRequest req, PersonTransationContext context, PersonService service) =>
                 {
-                    var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+                    var person = new PersonModel(req.Name,req.Email,req.Password);
 
-                    if (person == null)
-                        return Results.NotFound();
-                    else
-                    {
-                        person.ChangeAttributes(req.Name, req.Password, req.Email);
-                        await context.SaveChangesAsync();
-                        return Results.Ok(person);
-                    }
+                    return await service.Patch(person, context,id);
 
                 })
                 .RequireAuthorization();
