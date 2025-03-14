@@ -14,8 +14,7 @@ namespace FinanceControl.Tests.Helpers
                 .Options;
 
             return new PersonTransationContext(options);
-
-            
+ 
         }
     }
 }

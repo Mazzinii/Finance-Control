@@ -1,36 +1,35 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
 using Person.Models.Requests;
+using PersonTransation.Services;
 
 namespace Person.Routes
 {
     public static class TransationRoute
     {
+        private static readonly TransationService _service = new TransationService();
+        private static readonly PersonTransationContext _context = new PersonTransationContext();
+
         public static void TransationRoutes(this WebApplication app)
         {
             var routes = app.MapGroup("Transition");
 
-
             //Create
             routes.MapPost("Create", 
-                async (TransationRequest request, PersonTransationContext context) =>
+                async (TransationRequest request) =>
                 {
-                var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
-                await context.AddAsync(transation);
-                await context.SaveChangesAsync();
-                return Results.Ok(transation);
+                    var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
+                    return await _service.Create(transation, _context);
+                
                 })
                 .RequireAuthorization();
 
             //Read
             routes.MapGet("{id:Guid}",
-                async (Guid id, PersonTransationContext context) =>
+                async (Guid id, int pageNumber, int pageQuantity) =>
                 {
-                    var transation = await context.Transation.Where(x => x.PersonId == id).ToListAsync();
-                    if (transation == null) return Results.NotFound();
-                    else return Results.Ok(transation);
+                    return await _service.Get(_context, pageNumber, pageQuantity);
                 })
                 .RequireAuthorization();
 

@@ -35,10 +35,10 @@ namespace Person.Routes
 
             //Read
             routes.MapGet("Read",
-                async (int page,PersonTransationContext context, PersonService service) =>
+                async (int pageNumber, int pageQuantity, PersonTransationContext context, PersonService service) =>
                 {
 
-                     return await service.Get(context, page);
+                     return await service.Get(context,pageNumber,pageQuantity);
 
                 });
 
@@ -55,18 +55,10 @@ namespace Person.Routes
 
             //Delete
             routes.MapDelete("{id:Guid}",
-                async (Guid id, PersonTransationContext context) =>
+                async (Guid id, PersonTransationContext context, PersonService service) =>
                 {
-                    var person = await context.People.FirstOrDefaultAsync(x => x.Id == id);
-
-                    if (person == null)
-                        return Results.NotFound();
-                    else
-                    {
-                        context.Remove(person);
-                        await context.SaveChangesAsync();
-                        return Results.Ok(person);
-                    }
+                    return await service.Delete(context, id);
+                  
                 })
                 .RequireAuthorization();
 

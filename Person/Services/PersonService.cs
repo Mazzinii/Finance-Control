@@ -1,11 +1,10 @@
-﻿using System.Runtime.InteropServices;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
 
 namespace PersonTransation.Services
 {
-    public class PersonService 
+    public class PersonService : IService<PersonModel> 
     {
 
         public async Task<IResult> Create(PersonModel person, PersonTransationContext context)
@@ -52,11 +51,11 @@ namespace PersonTransation.Services
         }
 
 
-        public async Task<IResult> Get(PersonTransationContext context, int itemperpage)
+        public async Task<IResult> Get(PersonTransationContext context, int pageNumber, int pageQuantity)
         {
             var person = await context.People.ToListAsync();
 
-            var pagination = person.Skip(0).Take(itemperpage);
+            var pagination = person.Skip((pageNumber - 1) * pageQuantity).Take(pageQuantity).ToList();
 
             return TypedResults.Ok(pagination);
         }
@@ -66,12 +65,26 @@ namespace PersonTransation.Services
             var hasId = await context.People.FirstOrDefaultAsync(x => x.Id == id);
 
             if (hasId == null)
-                return TypedResults.NotFound();
+                return TypedResults.BadRequest("Invalid Id");
             else
             {
                 hasId.ChangeAttributes(person.Name, person.Password, person.Email);
                 await context.SaveChangesAsync();
                 return TypedResults.Ok(person);
+            }
+        }
+
+        public async Task<IResult> Delete(PersonTransationContext context, Guid id)
+        {
+            var hasPerson = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(hasPerson == null)
+                return TypedResults.BadRequest("Invalid Id");
+            else
+            {
+                context.Remove(hasPerson);
+                await context.SaveChangesAsync();
+                return TypedResults.Ok("Deleted");
             }
         }
 
