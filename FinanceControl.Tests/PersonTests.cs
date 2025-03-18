@@ -1,12 +1,3 @@
-using FinanceControl.Tests.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Moq;
-using Person.Models;
-using Person.Models.Requests;
-using Person.Services;
-using PersonTransation.Services;
 
 namespace FinanceControl.Tests
 {
