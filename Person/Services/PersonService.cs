@@ -6,6 +6,7 @@ namespace PersonTransation.Services
 {
     public class PersonService : IService<PersonModel> 
     {
+        //adicionar requests nos parametros para menor repetição de código
 
         public async Task<IResult> Create(PersonModel person, PersonTransationContext context)
         {

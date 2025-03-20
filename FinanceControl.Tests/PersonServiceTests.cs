@@ -1,18 +1,23 @@
 
 namespace FinanceControl.Tests
 {
-    public class PersonTests
+    public class PersonServiceTests
     {
 
         private readonly PersonService _service = new PersonService();
+        private readonly Faker _faker = new Faker("pt_BR");
+        private readonly Faker _faker1 = new Faker("pt_BR");
+        //tentar adicionar person de maneira global para menor repetição de código
+        //testar check email
+        //testar caso negativo das ações
 
         [Fact]
-        public async Task CreatePerson()
+        public async Task Create_GivanAllParameters_ThenShoulInsertPerson()
         {
             // Arrange
-            string name = "John Doe";
-            string email = "john.doe@example.com";
-            string password = "password123";
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.UserName;
 
         
             var person = new PersonModel(name, email, password);
@@ -36,12 +41,12 @@ namespace FinanceControl.Tests
         }
 
         [Fact]
-        public async Task LoginPerson()
+        public async Task Handle_GivenAllValidParameters_ThenShouldReturnTokenAndId()
         {
             //Arrange 
-            string name = "Luiz Gallan";
-            string email = "luizmazzini@gmail.com";
-            string password = "1234";
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.Avatar;
 
             var context = new MockDb().CreateDbContext();
             var passwordHasher = new PasswordHasherService();
@@ -68,32 +73,33 @@ namespace FinanceControl.Tests
         }
 
         [Fact]
-        public async Task GetPerson()
+        public async Task Get_GivenAllValidParameters_ThenShouldReturnListofPerson()
         {
             //Arrange
-            string name = "John Doe";
-            string email = "john.doe@example.com";
-            string password = "password123";
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.Avatar;
 
-            string name2 = "Luiz Gallan";
-            string email2 = "luizmazzini@gmail.com";
-            string password2 = "1234";
+            string name1 = _faker1.Person.FullName;
+            string email1 = _faker1.Person.Email;
+            string password1 = _faker1.Person.Avatar;
 
             int expected = 2;
 
-            var person = new PersonModel(name, email, password);
-            var peron2 = new PersonModel(name2, email2, password2);
+
             var context = new MockDb().CreateDbContext();
 
             // Act
+            var person = new PersonModel(name, email, password);
+            var person2 = new PersonModel(name1, email1, password1);
             await _service.Create(person, context);
-            await _service.Create(peron2, context);
+            await _service.Create(person2, context);
             var result = await _service.Get(context, 1, 2);
 
             //Assert
             Assert.NotNull(result);
 
-            //Desserializa o conteudo da resposta
+            //Desserializa o conteudo do result
             var okResult = (Ok<List<PersonModel>>)result;
             var people = okResult.Value;
 
@@ -103,22 +109,22 @@ namespace FinanceControl.Tests
         }
 
         [Fact]
-        public async Task PatchPerson()
+        public async Task Patch_WhenGivenAllValidParameters_ThenShouldReturnUpdatePerson()
         {
             //Arrange
-            string name = "John Doe";
-            string email = "john.doe@example.com";
-            string password = "password123";
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.Avatar;
 
-            string newName = "Luiz Gallan";
-            string newEmail = "luizmazzini@gmail.com";
-            string newPassword = "1234";
+            string newName = _faker1.Person.FullName;
+            string newEmail = _faker1.Person.Email;
+            string newPassword = _faker1.Person.Avatar;
 
-            var person = new PersonModel(name,email,password);
-            var patchPerson = new PersonModel(newName, newEmail, newPassword);
             var context = new MockDb().CreateDbContext();
 
             //Act
+            var person = new PersonModel(name, email, password);
+            var patchPerson = new PersonModel(newName, newEmail, newPassword);
             await _service.Create(person,context);
             await _service.Patch(patchPerson,context,person.Id);
 
@@ -129,7 +135,27 @@ namespace FinanceControl.Tests
         }
 
 
+        [Fact]
+        public async Task Delete_WhenGivenAllValidParameters_ThenShouldDeletePerson()
+        {
 
+            // Arrange
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.UserName;
+
+            var context = new MockDb().CreateDbContext();
+
+            // Act
+
+            var person = new PersonModel(name, email, password);
+            await _service.Create(person, context);
+            await _service.Delete(context,person.Id);
+
+            //Assert
+            var hasPerson = await context.People.FirstOrDefaultAsync(x => x.Id == person.Id);
+            Assert.Null(hasPerson);
+    }
 
     }
 }

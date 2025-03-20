@@ -6,3 +6,5 @@ global using Person.Models;
 global using Person.Models.Requests;
 global using Person.Services;
 global using PersonTransation.Services;
+global using Bogus;
+global using Microsoft.EntityFrameworkCore;

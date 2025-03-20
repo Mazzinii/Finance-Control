@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Models;
-using SQLitePCL;
 
 namespace PersonTransation.Services
 {
@@ -18,7 +17,7 @@ namespace PersonTransation.Services
         {//verificar para exbibir por pagina
             var transation = await context.Transation.ToListAsync();
 
-            var pagination = transation.Skip(pageNumber * pageQuantity).Take(pageQuantity);
+            var pagination = transation.Skip((pageNumber - 1) * pageQuantity).Take(pageQuantity).ToList();
 
             return TypedResults.Ok(pagination);
             
