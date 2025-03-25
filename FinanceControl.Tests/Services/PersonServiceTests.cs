@@ -1,5 +1,4 @@
-
-namespace FinanceControl.Tests
+namespace FinanceControl.Tests.Service
 {
     public class PersonServiceTests
     {
@@ -12,20 +11,20 @@ namespace FinanceControl.Tests
         //testar caso negativo das ações
 
         [Fact]
-        public async Task Create_GivanAllParameters_ThenShoulInsertPerson()
+        public async Task Create_GivenAllParameters_ThenShoulInsertPerson()
         {
             // Arrange
             string name = _faker.Person.FullName;
             string email = _faker.Person.Email;
             string password = _faker.Person.UserName;
 
-        
+
             var person = new PersonModel(name, email, password);
             var context = new MockDb().CreateDbContext();
 
             // Act
             await _service.Create(person, context);
- 
+
             // Assert
             Assert.NotNull(person);
             Assert.NotNull(person.Name);
@@ -40,8 +39,29 @@ namespace FinanceControl.Tests
 
         }
 
+        [Fact] 
+        public async Task CheckEmail_WhenGivenAllParameters_ThenShouldReturnTrueIfEmailIsAlredyRegistered()
+        {
+            // Arrange
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.UserName;
+
+
+            var person = new PersonModel(name, email, password);
+            var context = new MockDb().CreateDbContext();
+
+            // Act
+            await _service.Create(person, context);
+           var result = await _service.CheckEmail(person, context);
+
+            // Assert
+            Assert.True(result);
+
+        }
+
         [Fact]
-        public async Task Handle_GivenAllValidParameters_ThenShouldReturnTokenAndId()
+        public async Task Handle_WhenGivenAllValidParameters_ThenShouldReturnTokenAndId()
         {
             //Arrange 
             string name = _faker.Person.FullName;
@@ -73,7 +93,7 @@ namespace FinanceControl.Tests
         }
 
         [Fact]
-        public async Task Get_GivenAllValidParameters_ThenShouldReturnListofPerson()
+        public async Task Get_WhenGivenAllValidParameters_ThenShouldReturnListofPerson()
         {
             //Arrange
             string name = _faker.Person.FullName;
@@ -125,8 +145,8 @@ namespace FinanceControl.Tests
             //Act
             var person = new PersonModel(name, email, password);
             var patchPerson = new PersonModel(newName, newEmail, newPassword);
-            await _service.Create(person,context);
-            await _service.Patch(patchPerson,context,person.Id);
+            await _service.Create(person, context);
+            await _service.Patch(patchPerson, context,person.Id);
 
             //Assert
             Assert.NotNull(person);
@@ -136,7 +156,7 @@ namespace FinanceControl.Tests
 
 
         [Fact]
-        public async Task Delete_WhenGivenAllValidParameters_ThenShouldDeletePerson()
+        public async Task Delete_WhenGivenAllValidId_ThenShouldDeletePerson()
         {
 
             // Arrange
@@ -150,12 +170,12 @@ namespace FinanceControl.Tests
 
             var person = new PersonModel(name, email, password);
             await _service.Create(person, context);
-            await _service.Delete(context,person.Id);
+            await _service.Delete(context, person.Id);
 
             //Assert
             var hasPerson = await context.People.FirstOrDefaultAsync(x => x.Id == person.Id);
             Assert.Null(hasPerson);
-    }
+        }
 
     }
 }

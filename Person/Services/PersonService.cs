@@ -18,7 +18,7 @@ namespace PersonTransation.Services
             try
             {
                 //verificando se o email já esta registrado
-                bool hasEmail = await CheckingEmail(person, context);
+                bool hasEmail = await CheckEmail(person, context);
 
                 if (hasEmail)
                 {
@@ -43,7 +43,7 @@ namespace PersonTransation.Services
               
         }
 
-        public async Task<bool> CheckingEmail(PersonModel person, PersonTransationContext context)
+        public async Task<bool> CheckEmail(PersonModel person, PersonTransationContext context)
         {
             var hasEmail = await context.People.FirstOrDefaultAsync(x => x.Email == person.Email);
 

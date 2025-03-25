@@ -22,8 +22,22 @@ namespace PersonTransation.Services
             return TypedResults.Ok(pagination);
             
         }
+        public async Task<Guid> GetId(TransationModel transation, PersonTransationContext context)
+        {
+            var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Description == transation.Description 
+                                                                    && x.Status == transation.Status 
+                                                                    && x.Value == transation.Value
+                                                                    && x.Date == transation.Date);
 
-        public async Task<IResult> Patch(TransationModel transation, PersonTransationContext context, Guid id)
+            if (hasTransation == null)
+                return Guid.Empty;
+            else
+            {
+                return hasTransation.Id;
+            }
+
+        }
+        public async Task<IResult> Patch(TransationModel transation, PersonTransationContext context,Guid id)
         {
             var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
             
@@ -41,7 +55,7 @@ namespace PersonTransation.Services
         {
             var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (hasTransation != null) 
+            if (hasTransation == null) 
                 return TypedResults.BadRequest("Invalid Id");
             else
             {
@@ -50,6 +64,8 @@ namespace PersonTransation.Services
                 return TypedResults.Ok(hasTransation);
             }
         }
+
+         
 
     }
 }

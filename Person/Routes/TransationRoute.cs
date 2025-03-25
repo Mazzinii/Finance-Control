@@ -34,19 +34,15 @@ namespace Person.Routes
                 .RequireAuthorization();
 
             //Update
-            routes.MapPatch("{id:guid}",
-                async (Guid id, TransationUpdateRequest req, PersonTransationContext context) =>
+            routes.MapPatch("",
+                async (TransationRequest oldRequest, PersonTransationContext context) =>
                 {
-                    var transation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
+                    var oldTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date, oldRequest.PersonId);
+                    var id =  await _service.GetId(oldTransation, _context);
+                  
+                    return await _service.Patch(oldTransation, context, id);
+                    
 
-                    if (transation == null)
-                        return Results.NotFound();
-                    else
-                    {
-                        transation.ChangeAttributes(req.Description, req.Value, req.Date);
-                        await context.SaveChangesAsync();
-                        return Results.Ok(transation);
-                    }
                 })
                 .RequireAuthorization();
                     
