@@ -1,8 +1,8 @@
 ﻿using Person.Services;
 
-namespace Person.Models
+namespace PersonTransation.Models
 {
-    public class PersonModel 
+    public class UsersModel 
     {
         public Guid Id { get; init; }
         public string Name { get; private set; } 
@@ -12,7 +12,7 @@ namespace Person.Models
 
         private readonly PasswordHasherService passwordHash = new PasswordHasherService();
 
-        public PersonModel(string name, string email, string password)
+        public UsersModel(string name, string email, string password)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -20,7 +20,7 @@ namespace Person.Models
             Password = passwordHash.Hash(password);
         }
 
-        public PersonModel(string email, string password)
+        public UsersModel(string email, string password)
         {
             Email = email;
             Password = password;

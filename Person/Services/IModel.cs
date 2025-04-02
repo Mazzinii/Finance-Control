@@ -2,7 +2,7 @@
 
 namespace PersonTransation.Services
 {
-    public interface IService<T>
+    public interface IModel<T>
     {
         
         Task<IResult> Create(T model, PersonTransationContext context);

@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Person.Models;
+using PersonTransation.Models;
+
 
 namespace Person.Data
 {
     public class PersonTransationContext : DbContext
     {
-        public  DbSet<PersonModel> People { get; set; }
-        public  DbSet<TransationModel> Transation { get; set; }
+        public  DbSet<UsersModel> Users { get; set; }
+        public  DbSet<TransationModel> Transations { get; set; }
        
         public PersonTransationContext() { }
 
@@ -16,7 +17,7 @@ namespace Person.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source = person.sqlite");
+                optionsBuilder.UseSqlite("Data Source = users.sqlite");
                 base.OnConfiguring(optionsBuilder);
             }
             
@@ -25,9 +26,9 @@ namespace Person.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TransationModel>()
-                .HasOne(e => e.Person)
+                .HasOne(e => e.Users)
                 .WithMany(e => e.Transations)
-                .HasForeignKey(e => e.PersonId)
+                .HasForeignKey(e => e.UsersId)
                 .IsRequired();
         }
 

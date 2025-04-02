@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
-using Person.Models;
+using PersonTransation.Models;
 
 namespace PersonTransation.Services
 {
-    public class PersonService : IService<PersonModel> 
+    public class UserService : IModel<UsersModel> 
     {
         //adicionar requests nos parametros para menor repetição de código
 
-        public async Task<IResult> Create(PersonModel person, PersonTransationContext context)
+        public async Task<IResult> Create(UsersModel person, PersonTransationContext context)
         {
             //validando entrada
             if(person == null || context == null)
@@ -43,27 +43,27 @@ namespace PersonTransation.Services
               
         }
 
-        public async Task<bool> CheckEmail(PersonModel person, PersonTransationContext context)
+        public async Task<bool> CheckEmail(UsersModel person, PersonTransationContext context)
         {
-            var hasEmail = await context.People.FirstOrDefaultAsync(x => x.Email == person.Email);
+            var hasEmail = await context.Users.FirstOrDefaultAsync(x => x.Email == person.Email);
 
             if (hasEmail != null) return true;
             else return false;
         }
 
 
-        public async Task<IResult> Get(PersonTransationContext context, int pageNumber, int pageQuantity)
+        public async Task<IResult> Get(PersonTransationContext context, int page, int limit)
         {
-            var person = await context.People.ToListAsync();
+            var person = await context.Users.ToListAsync();
 
-            var pagination = person.Skip((pageNumber - 1) * pageQuantity).Take(pageQuantity).ToList();
+            var pagination = person.Skip((page - 1) * limit).Take(limit).ToList();
 
             return TypedResults.Ok(pagination);
         }
 
-        public async Task<IResult> Patch(PersonModel person, PersonTransationContext context, Guid id)
+        public async Task<IResult> Patch(UsersModel person, PersonTransationContext context, Guid id)
         {
-            var hasId = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+            var hasId = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
             if (hasId == null)
                 return TypedResults.BadRequest("Invalid Id");
@@ -77,7 +77,7 @@ namespace PersonTransation.Services
 
         public async Task<IResult> Delete(PersonTransationContext context, Guid id)
         {
-            var hasPerson = await context.People.FirstOrDefaultAsync(x => x.Id == id);
+            var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
             if(hasPerson == null)
                 return TypedResults.BadRequest("Invalid Id");

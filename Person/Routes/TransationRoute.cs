@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Person.Data;
-using Person.Models;
+﻿using Person.Data;
+using PersonTransation.Models;
 using Person.Models.Requests;
 using PersonTransation.Services;
 
@@ -50,7 +49,7 @@ namespace Person.Routes
             routes.MapDelete("{id:guid}", 
                 async (Guid id, PersonTransationContext context) =>
                 {
-                    var transation = context.Transation.FirstOrDefault(x => x.Id == id);
+                    var transation = context.Transations.FirstOrDefault(x => x.Id == id);
 
                     if (transation == null)
                         return Results.NotFound();

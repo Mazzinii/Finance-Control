@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using Person.Models;
+using PersonTransation.Models;
 
 namespace Person.Services
 {
@@ -15,7 +15,7 @@ namespace Person.Services
             _configuration = configuration;
         }
 
-        public string GenerateToken(PersonModel person)
+        public string GenerateToken(UsersModel person)
         {
             var key = _configuration["Key:Jwt"];
             var tokenConfig = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));

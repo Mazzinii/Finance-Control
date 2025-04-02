@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
-using Person.Models;
+using PersonTransation.Models;
 
 namespace PersonTransation.Services
 {
-    public class TransationService : IService<TransationModel>
+    public class TransationService : IModel<TransationModel>
     {
         
         public async Task<IResult> Create(TransationModel transation, PersonTransationContext context)
@@ -15,7 +15,7 @@ namespace PersonTransation.Services
         }
         public async Task<IResult> Get(PersonTransationContext context, int pageNumber, int pageQuantity)
         {//verificar para exbibir por pagina
-            var transation = await context.Transation.ToListAsync();
+            var transation = await context.Transations.ToListAsync();
 
             var pagination = transation.Skip((pageNumber - 1) * pageQuantity).Take(pageQuantity).ToList();
 
@@ -24,7 +24,7 @@ namespace PersonTransation.Services
         }
         public async Task<Guid> GetId(TransationModel transation, PersonTransationContext context)
         {
-            var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Description == transation.Description 
+            var hasTransation = await context.Transations.FirstOrDefaultAsync(x => x.Description == transation.Description 
                                                                     && x.Status == transation.Status 
                                                                     && x.Value == transation.Value
                                                                     && x.Date == transation.Date);
@@ -39,7 +39,7 @@ namespace PersonTransation.Services
         }
         public async Task<IResult> Patch(TransationModel transation, PersonTransationContext context,Guid id)
         {
-            var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
+            var hasTransation = await context.Transations.FirstOrDefaultAsync(x => x.Id == id);
             
             if(hasTransation == null) 
                 return TypedResults.BadRequest("Invalid Id");
@@ -53,7 +53,7 @@ namespace PersonTransation.Services
 
         public async Task<IResult> Delete(PersonTransationContext context, Guid id)
         {
-            var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Id == id);
+            var hasTransation = await context.Transations.FirstOrDefaultAsync(x => x.Id == id);
 
             if (hasTransation == null) 
                 return TypedResults.BadRequest("Invalid Id");

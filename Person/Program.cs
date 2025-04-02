@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Person.Data;
 using Person.Extensions;
-using Person.Models.Requests;
+using PersonTransation.Models.Requests;
 using Person.Routes;
 using Person.Services;
 using PersonTransation.Services;
@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGenWithAuth();
 builder.Services.AddScoped<PersonTransationContext>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddScoped<LoginHashRequests>();
-builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAuthorization();
 

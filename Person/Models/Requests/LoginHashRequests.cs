@@ -2,7 +2,7 @@
 using Person.Data;
 using Person.Services;
 
-namespace Person.Models.Requests
+namespace PersonTransation.Models.Requests
 {
     public class LoginHashRequests
     {
@@ -21,7 +21,7 @@ namespace Person.Models.Requests
 
         public async Task<string> Handle(LoginRequest req)
         {
-            PersonModel? person = await _personContext.People
+            UsersModel? person = await _personContext.Users
                 .FirstOrDefaultAsync(x => x.Email == req.Email);
 
             if (person == null)
