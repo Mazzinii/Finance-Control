@@ -37,7 +37,7 @@ namespace Person.Services
             var token = tokenhandler.CreateToken(tokenDescriptor);
             
 
-            return $"Token: {token} Id: {person.Id}";
+            return $"Token: {token}/ Id: {person.Id}/";
         }
     }
 }

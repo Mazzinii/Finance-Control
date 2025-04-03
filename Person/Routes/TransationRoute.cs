@@ -15,31 +15,41 @@ namespace Person.Routes
             var routes = app.MapGroup("Transition");
 
             //Create
-            routes.MapPost("Create", 
+            routes.MapPost("Create",
                 async (TransationRequest request) =>
                 {
                     var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
                     return await _service.Create(transation, _context);
-                
+
                 })
-                .RequireAuthorization();
+                ;
 
             //Read
             routes.MapGet("{id:Guid}",
-                async (Guid id, int pageNumber, int pageQuantity) =>
+                async (Guid id, int page, int limit) =>
                 {
-                    return await _service.Get(_context, pageNumber, pageQuantity);
+                    return await _service.Get(_context, page, limit);
                 })
-                .RequireAuthorization();
+                ;
+            
+            //GetId Why dosent work?
+           /* routes.MapGet("Id", 
+                async (TransationRequest request) =>
+                {
+                    var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
+
+                    return await _service.GetId(transation, _context);
+                });
+           */
 
             //Update
-            routes.MapPatch("",
-                async (TransationRequest oldRequest, PersonTransationContext context) =>
+            routes.MapPatch("{id:guid}",
+                async (Guid id, TransationRequest oldRequest) =>
                 {
                     var oldTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date, oldRequest.PersonId);
-                    var id =  await _service.GetId(oldTransation, _context);
                   
-                    return await _service.Patch(oldTransation, context, id);
+                  
+                    return await _service.Patch(oldTransation, _context, id);
                     
 
                 })
@@ -47,18 +57,9 @@ namespace Person.Routes
                     
             //Delete
             routes.MapDelete("{id:guid}", 
-                async (Guid id, PersonTransationContext context) =>
+                async (Guid id) =>
                 {
-                    var transation = context.Transations.FirstOrDefault(x => x.Id == id);
-
-                    if (transation == null)
-                        return Results.NotFound();
-                    else
-                    {
-                        context.Remove(transation);
-                        await context.SaveChangesAsync();
-                        return Results.Ok();
-                    }
+                    return await _service.Delete(_context, id);
                 })
                 .RequireAuthorization();
 

@@ -1,9 +1,4 @@
-﻿
-
-using Bogus.DataSets;
-using Bogus;
-
-namespace FinanceControl.Tests.Service
+﻿namespace FinanceControl.Tests.Service
 {
 
 
@@ -42,14 +37,14 @@ namespace FinanceControl.Tests.Service
             Assert.NotNull(transation.Status);
             Assert.NotNull(transation.Value);
             Assert.NotNull(transation.Date);
-            Assert.NotNull(transation.PersonId);
-            Assert.Collection(context.Transation, transation =>
+            Assert.NotNull(transation.UsersId);
+            Assert.Collection(context.Transations, transation =>
             {
                 Assert.Equal(description, transation.Description);
                 Assert.Equal(status, transation.Status);
                 Assert.Equal(value, transation.Value);
                 Assert.Equal(date, transation.Date);
-                Assert.Equal(personId, transation.PersonId);
+                Assert.Equal(personId, transation.UsersId);
             });
         }
 
@@ -147,7 +142,7 @@ namespace FinanceControl.Tests.Service
             Assert.Equal(newDate, transation.Date);
             
             //Person Id dont change
-            Assert.Equal(personId,transation.PersonId);
+            Assert.Equal(personId,transation.UsersId);
         }
 
         [Fact]
@@ -168,7 +163,7 @@ namespace FinanceControl.Tests.Service
             await _service.Delete(context, transation.Id);
 
             //Assert
-            var hasTransation = await context.Transation.FirstOrDefaultAsync(x => x.Id == transation.Id);
+            var hasTransation = await context.Transations.FirstOrDefaultAsync(x => x.Id == transation.Id);
             Assert.Null(hasTransation);
         }
     }

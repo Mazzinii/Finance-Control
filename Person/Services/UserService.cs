@@ -61,6 +61,8 @@ namespace PersonTransation.Services
             return TypedResults.Ok(pagination);
         }
 
+        //public async Task<IResult> GetUserID(){} posso pegar a parte depois do id: com split 
+
         public async Task<IResult> Patch(UsersModel person, PersonTransationContext context, Guid id)
         {
             var hasId = await context.Users.FirstOrDefaultAsync(x => x.Id == id);

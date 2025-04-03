@@ -13,16 +13,16 @@ namespace PersonTransation.Services
             await context.SaveChangesAsync();
             return TypedResults.Created();
         }
-        public async Task<IResult> Get(PersonTransationContext context, int pageNumber, int pageQuantity)
+        public async Task<IResult> Get(PersonTransationContext context, int page, int limit)
         {//verificar para exbibir por pagina
             var transation = await context.Transations.ToListAsync();
 
-            var pagination = transation.Skip((pageNumber - 1) * pageQuantity).Take(pageQuantity).ToList();
+            var pagination = transation.Skip((page - 1) * limit).Take(limit).ToList();
 
             return TypedResults.Ok(pagination);
             
         }
-        public async Task<Guid> GetId(TransationModel transation, PersonTransationContext context)
+        public async Task<IResult> GetId(TransationModel transation, PersonTransationContext context)
         {
             var hasTransation = await context.Transations.FirstOrDefaultAsync(x => x.Description == transation.Description 
                                                                     && x.Status == transation.Status 
@@ -30,10 +30,10 @@ namespace PersonTransation.Services
                                                                     && x.Date == transation.Date);
 
             if (hasTransation == null)
-                return Guid.Empty;
+                return TypedResults.NotFound("transation not found");
             else
             {
-                return hasTransation.Id;
+                return TypedResults.Ok(hasTransation.Id);
             }
 
         }
