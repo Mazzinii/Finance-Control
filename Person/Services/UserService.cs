@@ -13,7 +13,7 @@ namespace PersonTransation.Services
             //validando entrada
             if(person == null || context == null)
             {
-                return Results.BadRequest("Invalid Data");
+                return TypedResults.BadRequest("Invalid Data");
             }
             try
             {
@@ -22,7 +22,7 @@ namespace PersonTransation.Services
 
                 if (hasEmail)
                 {
-                    return Results.BadRequest("Email is alredy registered");
+                    return TypedResults.BadRequest("Email is alredy registered");
                 }
                 
                 else
@@ -37,7 +37,7 @@ namespace PersonTransation.Services
             // trata exceções e retorna um erro interno 
             catch(Exception ex)
             {
-                return Results.Problem($"Error: {ex.Message}");
+                return TypedResults.Problem($"Error: {ex.Message}");
 
             }
               
@@ -45,10 +45,8 @@ namespace PersonTransation.Services
 
         public async Task<bool> CheckEmail(UsersModel person, PersonTransationContext context)
         {
-            var hasEmail = await context.Users.FirstOrDefaultAsync(x => x.Email == person.Email);
+            return await context.Users.AnyAsync(x => x.Email == person.Email);
 
-            if (hasEmail != null) return true;
-            else return false;
         }
 
 
@@ -61,33 +59,46 @@ namespace PersonTransation.Services
             return TypedResults.Ok(pagination);
         }
 
-        //public async Task<IResult> GetUserID(){} posso pegar a parte depois do id: com split 
-
+         
         public async Task<IResult> Patch(UsersModel person, PersonTransationContext context, Guid id)
         {
-            var hasId = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (hasId == null)
-                return TypedResults.BadRequest("Invalid Id");
-            else
+            try
             {
-                hasId.ChangeAttributes(person.Name, person.Password, person.Email);
-                await context.SaveChangesAsync();
-                return TypedResults.Ok(person);
+                var hasId = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (hasId == null)
+                    return TypedResults.BadRequest("Invalid Id");
+                else
+                {
+                    hasId.ChangeAttributes(person.Name, person.Password, person.Email);
+                    await context.SaveChangesAsync();
+                    return TypedResults.Ok(person);
+                }
+            } 
+            catch(Exception ex)
+            {
+                return TypedResults.Problem($"Error: {ex.Message} ");
             }
         }
 
         public async Task<IResult> Delete(PersonTransationContext context, Guid id)
         {
-            var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
-
-            if(hasPerson == null)
-                return TypedResults.BadRequest("Invalid Id");
-            else
+            try
             {
-                context.Remove(hasPerson);
-                await context.SaveChangesAsync();
-                return TypedResults.Ok("Deleted");
+                var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (hasPerson == null)
+                    return TypedResults.BadRequest("Invalid Id");
+                else
+                {
+                    context.Remove(hasPerson);
+                    await context.SaveChangesAsync();
+                    return TypedResults.Ok("Deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                return TypedResults.Problem($"Error: {ex.Message}");
             }
         }
 

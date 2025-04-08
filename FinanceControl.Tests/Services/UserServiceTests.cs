@@ -8,8 +8,12 @@ namespace FinanceControl.Tests.Service
         private readonly UserService _service = new UserService();
         private readonly Faker _faker = new Faker("pt_BR");
         private readonly Faker _faker1 = new Faker("pt_BR");
-        
-        
+
+
+        //make tests to check wrong parameters if they returns exception
+        //check if class returns when data is wrong 
+        //check if parameters are null
+
 
         [Fact]
         public async Task Create_GivenAllParameters_ThenShoulInsertPerson()
@@ -57,6 +61,36 @@ namespace FinanceControl.Tests.Service
 
             Assert.Equal("Invalid Data", badRequestResult.Value);
            
+
+
+        }
+
+        [Fact]
+        public async Task Create_GivenEmailAlredyRegistered_ThenShouldReturnBadRequest()
+        {
+            //Arrange
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.UserName;
+
+            string name1 = _faker1.Person.FullName;
+            string email1 = email;
+            string password1 = _faker1.Person.Avatar;
+
+
+            var person = new UsersModel(name, email, password);
+            var newPerson = new UsersModel(name1, email1, password1);
+            var context = new MockDb().CreateDbContext();
+
+            // Act
+            await _service.Create(person, context);
+            var expected = await _service.Create(newPerson, context);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequest<string>>(expected);
+
+            Assert.Equal("Email is alredy registered", badRequestResult.Value);
+
 
 
         }
@@ -207,14 +241,14 @@ namespace FinanceControl.Tests.Service
         public async Task Delete_WhenGivenAllValidId_ThenShouldDeletePerson()
         {
 
-            // Arrange
+            //Arrange
             string name = _faker.Person.FullName;
             string email = _faker.Person.Email;
             string password = _faker.Person.UserName;
 
             var context = new MockDb().CreateDbContext();
 
-            // Act
+            //Act
 
             var person = new UsersModel(name, email, password);
             await _service.Create(person, context);
@@ -223,6 +257,23 @@ namespace FinanceControl.Tests.Service
             //Assert
             var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.Id == person.Id);
             Assert.Null(hasPerson);
+        }
+
+        [Fact]
+        public async Task Delete_WhenGivenInvalidID_ThenSHouldReturnBadRequest()
+        {
+            //Arrange
+            var context = new MockDb().CreateDbContext();
+            var newGuid = _faker.Random.Guid();
+
+            //Act
+            var expected = await _service.Delete(context, newGuid);
+
+            //Assert
+            var actualRequest = Assert.IsType<BadRequest<string>>(expected);
+
+            Assert.Equal("Invalid Id", actualRequest.Value);
+
         }
 
     }

@@ -67,7 +67,11 @@
 
             //Assert
             Assert.NotNull(transation);
-            Assert.Equal(transation.Id, id);
+
+            var okResult = (Ok<Guid>)id;
+            var result = okResult.Value;
+
+            Assert.Equal(transation.Id, result);
           
         }
 

@@ -33,14 +33,14 @@ namespace Person.Routes
                 ;
             
             //GetId Why dosent work?
-           /* routes.MapGet("Id", 
-                async (TransationRequest request) =>
+            routes.MapGet("{value:int}/{date:Datetime}/{personId:Guid}", 
+                async (string description, string status, int value, DateTime date, Guid personId) =>
                 {
-                    var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
+                    var transation = new TransationModel(description, status, value, date, personId);
 
                     return await _service.GetId(transation, _context);
                 });
-           */
+           
 
             //Update
             routes.MapPatch("{id:guid}",
