@@ -13,6 +13,7 @@ namespace FinanceControl.Tests.Service
         //make tests to check wrong parameters if they returns exception
         //check if class returns when data is wrong 
         //check if parameters are null
+        //make tests more indepenent
 
 
         [Fact]
@@ -234,6 +235,34 @@ namespace FinanceControl.Tests.Service
             Assert.NotNull(person);
             Assert.Equal(newName, person.Name);
             Assert.Equal(newEmail, person.Email);
+        }
+
+        [Fact]
+        public async Task Patch_WhenGivenInvalidId_ThenShouldReturnBadRequest()
+        {
+            //Arrange
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.Avatar;
+
+            string newName = _faker1.Person.FullName;
+            string newEmail = _faker1.Person.Email;
+            string newPassword = _faker1.Person.Avatar;
+
+            var context = new MockDb().CreateDbContext();
+
+            //Act
+            var person = new UsersModel(name, email, password);
+            var invalidPersonId = new UsersModel(newName, newEmail, newPassword);
+            await _service.Create(person, context);
+
+            var expected = await _service.Patch(person, context, invalidPersonId.Id);
+
+            //Assert
+            var badRequestResult = Assert.IsType<BadRequest<string>>(expected);
+
+            Assert.Equal("Invalid Id", badRequestResult.Value);
+
         }
 
 

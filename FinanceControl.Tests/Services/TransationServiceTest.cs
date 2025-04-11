@@ -35,9 +35,6 @@
             Assert.NotNull(transation);
             Assert.NotNull(transation.Description);
             Assert.NotNull(transation.Status);
-            Assert.NotNull(transation.Value);
-            Assert.NotNull(transation.Date);
-            Assert.NotNull(transation.UsersId);
             Assert.Collection(context.Transations, transation =>
             {
                 Assert.Equal(description, transation.Description);
@@ -85,22 +82,32 @@
             DateTime date = _faker.Date.Past();
             var personId = _faker.Random.Guid();
 
+            string name = _faker.Person.FullName;
+            string email = _faker.Person.Email;
+            string password = _faker.Person.UserName;
+
             string description1 = _faker1.Finance.AccountName();
             string status1 = "Entrada";
             int value1 = _faker1.Random.Int();
             DateTime date1 = _faker1.Date.Past();
             var personId1 = _faker1.Random.Guid();
 
+            string name1 = _faker1.Person.FullName;
+            string email1 = _faker1.Person.Email;
+            string password1 = _faker1.Person.UserName;
+
             var context = new MockDb().CreateDbContext();
 
-            int expected = 2;
+            int expected = 1;
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
-            var transation1 = new TransationModel(description1, status1, value1, date1, personId1);
+            var user = new UsersModel(name, email, password);
+            var user1 = new UsersModel(name1, email1, password1);
+            var transation = new TransationModel(description, status, value, date, user.Id);
+            var transation1 = new TransationModel(description1, status1, value1, date1, user1.Id);
             await _service.Create(transation, context);
             await _service.Create(transation1, context);
-            var result = await _service.Get(context, 1, 2);
+            var result = await _service.Get(context,user.Id, 1, 1);
 
 
             //Assert

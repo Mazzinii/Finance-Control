@@ -12,7 +12,7 @@ namespace Person.Routes
 
         public static void TransationRoutes(this WebApplication app)
         {
-            var routes = app.MapGroup("Transition");
+            var routes = app.MapGroup("Transation").WithTags("Transations");
 
             //Create
             routes.MapPost("Create",
@@ -25,14 +25,14 @@ namespace Person.Routes
                 ;
 
             //Read
-            routes.MapGet("{id:Guid}",
-                async (Guid id, int page, int limit) =>
+            routes.MapGet("{personId:Guid}",
+                async (Guid personId, int page, int limit) =>
                 {
-                    return await _service.Get(_context, page, limit);
+                    return await _service.Get(_context, personId, page, limit);
                 })
                 ;
             
-            //GetId Why dosent work?
+            //GetId 
             routes.MapGet("{value:int}/{date:Datetime}/{personId:Guid}", 
                 async (string description, string status, int value, DateTime date, Guid personId) =>
                 {
@@ -43,23 +43,23 @@ namespace Person.Routes
            
 
             //Update
-            routes.MapPatch("{id:guid}",
-                async (Guid id, TransationRequest oldRequest) =>
+            routes.MapPatch("{transationId:guid}",
+                async (Guid transationId, TransationRequest oldRequest) =>
                 {
                     var oldTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date, oldRequest.PersonId);
                   
                   
-                    return await _service.Patch(oldTransation, _context, id);
+                    return await _service.Patch(oldTransation, _context, transationId);
                     
 
                 })
                 .RequireAuthorization();
                     
             //Delete
-            routes.MapDelete("{id:guid}", 
-                async (Guid id) =>
+            routes.MapDelete("{transationId:guid}", 
+                async (Guid transationId) =>
                 {
-                    return await _service.Delete(_context, id);
+                    return await _service.Delete(_context, transationId);
                 })
                 .RequireAuthorization();
 

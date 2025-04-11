@@ -52,11 +52,18 @@ namespace PersonTransation.Services
 
         public async Task<IResult> Get(PersonTransationContext context, int page, int limit)
         {
-            var person = await context.Users.ToListAsync();
+            try
+            {
+                var person = await context.Users.ToListAsync();
 
-            var pagination = person.Skip((page - 1) * limit).Take(limit).ToList();
+                var pagination = person.Skip((page - 1) * limit).Take(limit).ToList();
 
-            return TypedResults.Ok(pagination);
+                return TypedResults.Ok(pagination);
+            }
+            catch (Exception ex)
+            {
+                return TypedResults.Problem($"Error: {ex.Message}");
+            }
         }
 
          

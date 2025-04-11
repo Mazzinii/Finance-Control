@@ -11,7 +11,7 @@ namespace Person.Routes
         public static void PersonRoutes(this WebApplication app)
         {
             //mapping routes
-            var routes = app.MapGroup("users");
+            var routes = app.MapGroup("User").WithTags("Users");
 
 
 
