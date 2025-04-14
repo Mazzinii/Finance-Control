@@ -23,8 +23,7 @@ namespace PersonTransation.Services
         public async Task<IResult> Get(PersonTransationContext context, Guid personId, int page, int limit)
         {
             try
-            {
-                //verficar uma forma de retornar uma lista que bata com o personId dde forma assincrona 
+            { 
                 var transation =  await context.Transations.Where(x => x.UsersId == personId).ToListAsync();
 
                 var pagination = transation.Skip((page - 1) * limit).Take(limit).ToList();

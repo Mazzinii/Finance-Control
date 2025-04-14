@@ -73,6 +73,31 @@
         }
 
         [Fact]
+        public async Task GetId_WhenGivenInvalidParameters_ThenShoulReturnNotFound()
+        {
+            string description = _faker.Finance.AccountName();
+            string status = "Entrada";
+            int value = _faker.Random.Int();
+            DateTime date = _faker.Date.Past();
+            var personId = _faker.Random.Guid();
+
+            var context = new MockDb().CreateDbContext();
+
+            //Act
+            var transation = new TransationModel(description, status, value, date, personId);
+            var id = await _service.GetId(transation, context);
+
+            //Assert
+            Assert.NotNull(transation);
+
+            var notFound = (NotFound<string>)id;
+            var result = notFound.Value;
+
+            Assert.Equal("transation not found", result);
+
+        }
+
+        [Fact]
         public async Task Get_WhenGivenAllValidParameters_ThenShoulReturnListofTransation()
         {
             //Arrange
@@ -120,7 +145,8 @@
             Assert.NotNull(transations);
             Assert.Equal(expected, transations.Count);
         }
-        //melhorar metodo de pesquisa
+
+       
         [Fact]
         public async Task Patch_WhenGivelAllParameters_ThenShouldUpdateTransation()
         {
@@ -157,6 +183,39 @@
         }
 
         [Fact]
+        public async Task Patch_WhenGivenInvalidId_ThenShouldReturnBadRequest()
+        {
+            //Arrange
+            string description = _faker.Finance.AccountName();
+            string status = "Entrada";
+            int value = _faker.Random.Int();
+            DateTime date = _faker.Date.Past();
+            var personId = _faker.Random.Guid();
+
+            string newDescription = _faker1.Finance.AccountName();
+            string newStatus = "Entrada";
+            int newValue = _faker1.Random.Int();
+            DateTime newDate = _faker1.Date.Past();
+            var newPersonId = _faker1.Random.Guid();
+
+            var context = new MockDb().CreateDbContext();
+
+            //Act
+            var transation = new TransationModel(description, status, value, date, personId);
+            var newTransation = new TransationModel(newDescription, newStatus, newValue, newDate, newPersonId);
+            await _service.Create(transation, context);
+            var wrongId = await _service.Patch(newTransation, context, newTransation.Id);
+
+            //Assert
+            Assert.NotNull(transation);
+
+            var badRequest = (BadRequest<string>)wrongId;
+            var result = badRequest.Value;
+
+            Assert.Equal("Invalid Id", result);
+        }
+
+        [Fact]
         public async Task Delete_WhenGivenValidId_ThenShouldDeletePerson()
         {
             //Arrange
@@ -176,6 +235,35 @@
             //Assert
             var hasTransation = await context.Transations.FirstOrDefaultAsync(x => x.Id == transation.Id);
             Assert.Null(hasTransation);
+        }
+
+        [Fact]
+        public async Task Delete_WhenGivenInvalidId_ThenShouldReturnBadRequest()
+        {
+            //Arrange
+            string description = _faker.Finance.AccountName();
+            string status = "Entrada";
+            int value = _faker.Random.Int();
+            DateTime date = _faker.Date.Past();
+            var personId = _faker.Random.Guid();
+
+            var newTransationGuid = _faker.Random.Guid(); 
+
+            var context = new MockDb().CreateDbContext();
+
+            //Act
+            var transation = new TransationModel(description, status, value, date, personId);
+            await _service.Create(transation, context);
+            var invalidId = await _service.Delete(context, newTransationGuid);
+
+            //Assert
+            Assert.NotNull(transation);
+
+            var badRequest = (BadRequest<string>)invalidId;
+            var result = badRequest.Value;
+
+            Assert.Equal("Invalid Id", result);
+
         }
     }
 }
