@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Backend\PersonTransation.csproj" />
     <ProjectReference Include="..\Person\PersonTransation.csproj" />
   </ItemGroup>
 
