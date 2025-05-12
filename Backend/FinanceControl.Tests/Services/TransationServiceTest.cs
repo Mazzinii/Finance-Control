@@ -41,7 +41,7 @@
                 Assert.Equal(status, transation.Status);
                 Assert.Equal(value, transation.Value);
                 Assert.Equal(date, transation.Date);
-                Assert.Equal(personId, transation.UsersId);
+                Assert.Equal(personId, transation.UserId);
             });
         }
 
@@ -179,7 +179,7 @@
             Assert.Equal(newDate, transation.Date);
             
             //Person Id dont change
-            Assert.Equal(personId,transation.UsersId);
+            Assert.Equal(personId,transation.UserId);
         }
 
         [Fact]

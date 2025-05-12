@@ -21,6 +21,18 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAuthorization();
 
+//add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyPolicy",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 //add auth JWT token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
@@ -45,6 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("MyPolicy");
 app.UseHttpsRedirection();
 app.PersonRoutes();
 app.TransationRoutes();

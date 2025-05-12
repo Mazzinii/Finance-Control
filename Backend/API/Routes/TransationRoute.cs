@@ -44,12 +44,12 @@ namespace Person.Routes
 
             //Update
             routes.MapPatch("{transationId:guid}",
-                async (Guid transationId, TransationRequest oldRequest) =>
+                async (Guid transationId, TransationUpdateRequest oldRequest) =>
                 {
-                    var oldTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date, oldRequest.PersonId);
+                    var patchedTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date);
                   
                   
-                    return await _service.Patch(oldTransation, _context, transationId);
+                    return await _service.Patch(patchedTransation, _context, transationId);
                     
 
                 })

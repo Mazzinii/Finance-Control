@@ -24,7 +24,7 @@ namespace PersonTransation.Services
         {
             try
             { 
-                var transation =  await context.Transations.Where(x => x.UsersId == personId).ToListAsync();
+                var transation =  await context.Transations.Where(x => x.UserId == personId).ToListAsync();
 
                 var pagination = transation.Skip((page - 1) * limit).Take(limit).ToList();
 

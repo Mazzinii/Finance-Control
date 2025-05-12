@@ -1,4 +1,6 @@
-﻿using Person.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Person.Data;
 using Person.Models.Requests;
 using PersonTransation.Models;
 using PersonTransation.Models.Requests;
@@ -8,6 +10,10 @@ namespace Person.Routes
 {
     public static class PersonRoute
     {
+
+        private static readonly UserService _service = new UserService();
+        private static readonly PersonTransationContext _context = new PersonTransationContext();
+
         public static void PersonRoutes(this WebApplication app)
         {
             //mapping routes
@@ -17,11 +23,11 @@ namespace Person.Routes
 
             //Create
             routes.MapPost("",
-                async (PersonRequest req, PersonTransationContext context, UserService service) =>
+                async (PersonRequest req) =>
                 {
                     var person = new UsersModel(req.Name, req.Email, req.Password);
 
-                    return await service.Create(person, context);              
+                    return await _service.Create(person, _context);              
                 });
 
             //Login
@@ -35,29 +41,29 @@ namespace Person.Routes
 
             //Read
             routes.MapGet("",
-                async (int page, int limit, PersonTransationContext context, UserService service) =>
+                async (int page, int limit) =>
                 {
 
-                     return await service.Get(context,page,limit);
+                     return await _service.Get(_context, page, limit);
 
                 });
 
             //Update
             routes.MapPatch("{id:Guid}",
-                async (Guid id, PersonRequest req, PersonTransationContext context, UserService service) =>
+                async (Guid id, PersonRequest req) =>
                 {
                     var person = new UsersModel(req.Name,req.Email,req.Password);
 
-                    return await service.Patch(person, context,id);
+                    return await _service.Patch(person, _context,id);
 
                 })
                 .RequireAuthorization();
 
             //Delete
             routes.MapDelete("{id:Guid}",
-                async (Guid id, PersonTransationContext context, UserService service) =>
+                async (Guid id, UserService service) =>
                 {
-                    return await service.Delete(context, id);
+                    return await _service.Delete(_context, id);
                   
                 })
                 .RequireAuthorization();

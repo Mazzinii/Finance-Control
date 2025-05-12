@@ -28,7 +28,7 @@ namespace Person.Data
             modelBuilder.Entity<TransationModel>()
                 .HasOne(e => e.Users)
                 .WithMany(e => e.Transations)
-                .HasForeignKey(e => e.UsersId)
+                .HasForeignKey(e => e.UserId)
                 .IsRequired();
         }
 

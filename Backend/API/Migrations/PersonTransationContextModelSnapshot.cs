@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Person.Data;
 
@@ -11,11 +10,9 @@ using Person.Data;
 namespace PersonTransation.Migrations
 {
     [DbContext(typeof(PersonTransationContext))]
-    [Migration("20250403133341_Initial")]
-    partial class Initial
+    partial class PersonTransationContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.12");
@@ -37,7 +34,7 @@ namespace PersonTransation.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Value")
@@ -45,7 +42,7 @@ namespace PersonTransation.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transations");
                 });
@@ -77,7 +74,7 @@ namespace PersonTransation.Migrations
                 {
                     b.HasOne("PersonTransation.Models.UsersModel", "Users")
                         .WithMany("Transations")
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

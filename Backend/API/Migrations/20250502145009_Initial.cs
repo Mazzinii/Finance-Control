@@ -34,23 +34,23 @@ namespace PersonTransation.Migrations
                     Status = table.Column<string>(type: "TEXT", nullable: false),
                     Value = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UsersId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transations_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_Transations_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transations_UsersId",
+                name: "IX_Transations_UserId",
                 table: "Transations",
-                column: "UsersId");
+                column: "UserId");
         }
 
         /// <inheritdoc />
