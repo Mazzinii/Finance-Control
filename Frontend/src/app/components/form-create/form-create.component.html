@@ -1,0 +1,10 @@
+<button (click)="getUsers()">Resgatar usuários</button>
+<br />
+<br />
+@for (user of users; track $index) {
+<ul>
+  <li>{{ user.email }}</li>
+  <li>{{ user.name }}</li>
+  <li>{{ user.password }}</li>
+</ul>
+}
