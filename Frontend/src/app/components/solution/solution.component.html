@@ -1,0 +1,27 @@
+<h2>Aqui será colocado a imagem da {{ name }}</h2>
+@if (userName == 'Eduardo') {
+<h2>Seja Bem Vindo Eduardo!!</h2>
+} @else {
+<h2>Usuário errado</h2>
+}
+<br />
+<h2>Itens pegos dinamicamente de uma lista</h2>
+@for (item of items; track item) {
+<ul>
+  <li>{{ item }}</li>
+</ul>
+}
+<br />
+<p>Var vindo do componente Pai que é {{ componentFilho }}</p>
+<button (click)="showMessage()">{{ eventChanger }}</button>
+<br />
+<h2>Two way data binding</h2>
+<form>
+  <input
+    type="text"
+    [(ngModel)]="inputName"
+    name="inputName"
+    placeholder="Digite o seu nome"
+  />
+</form>
+<p>{{ inputName }}</p>

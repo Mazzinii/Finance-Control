@@ -13,4 +13,8 @@ export class UserService {
   getUsers() {
     return this.httpClient.get<User[]>(this._url + '/User?page=1&limit=10');
   }
+
+  createUser(user: User) {
+    return this.httpClient.post<User>(`${this._url}/User`, user);
+  }
 }
