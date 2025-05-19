@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { HomeImageComponent } from '../home-image/home-image.component';
 
 @Component({
   selector: 'app-form-create',
-  imports: [HomeImageComponent],
+  imports: [HomeImageComponent, RouterLink],
   templateUrl: './form-create.component.html',
   styleUrl: './form-create.component.css',
 })
