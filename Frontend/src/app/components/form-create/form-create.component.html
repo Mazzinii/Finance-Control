@@ -1,23 +1,27 @@
 <div class="main-layout">
   <app-home-image></app-home-image>
   <div class="form-layout">
-    <div class="title">
-      <h1>Ctrl$</h1>
-      <h2>UM JEITO FÁCIL DE CONTROLAR SUAS FINANÇAS</h2>
-      <div class="forms">
-        <h1>Login</h1>
-        <h2>Email</h2>
-        <form>
-          <input type="email" name="Email" />
-        </form>
-        <h2>Senha</h2>
-        <form>
-          <input type="password" name="Password" />
-        </form>
-        <div class="button">
-          <button>Entrar</button>
+    <app-header></app-header>
+    <div class="form">
+      <h1>Login</h1>
+      <form>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" [(ngModel)]="email" name="email" required />
         </div>
-      </div>
+        <div>
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+          />
+        </div>
+        <div class="button">
+          <input (click)="login()" type="submit" />
+        </div>
+      </form>
     </div>
     <footer>
       <h2>

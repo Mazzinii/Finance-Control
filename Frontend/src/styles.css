@@ -2,12 +2,12 @@
   font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
+  color-scheme: dark;
 
   h1 {
     color: #ff735c;
   }
   h2 {
-    color: white;
     font-size: 20px;
     font-weight: 100;
   }
@@ -23,7 +23,6 @@
 }
 
 .form-layout {
-  background-color: rgba(30, 30, 30, 1);
   width: 50vw;
   height: 100vh;
 }
@@ -39,24 +38,33 @@
   }
 }
 
-.forms {
-  display: flex;
-  gap: 1.2rem;
-  flex-direction: column;
-  align-items: flex-start;
+.form {
+  text-align: start;
   padding-top: 4rem;
   margin: 0 auto;
   width: 350px;
 
   h1 {
     font-size: 40px;
+    padding-bottom: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+
+    & label {
+      padding-bottom: 0.5rem;
+      font-size: 20px;
+      display: flex;
+    }
   }
 
   input {
     width: 350px;
-    padding: 0.2rem 0 0.2rem 0.2rem;
-    background-color: rgba(128, 128, 128, 1);
-    color: white;
+    padding: 0.3rem 0 0.3rem 0.3rem;
     font-size: 18px;
   }
 
@@ -64,17 +72,18 @@
     display: flex;
     justify-content: center;
     width: 350px;
-  }
 
-  button {
-    padding: 1rem 7.5rem;
-    margin-top: 1.5rem;
-    background-color: #ff735c;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 1rem;
-    cursor: pointer;
+    & input {
+      padding: 1rem 7.5rem;
+      margin-top: 1.5rem;
+      background-color: #ff735c;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 1rem;
+      cursor: pointer;
+      border: none;
+    }
   }
 }
 

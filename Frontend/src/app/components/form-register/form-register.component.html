@@ -1,31 +1,30 @@
 <div class="main-layout">
   <app-home-image></app-home-image>
   <div class="form-layout">
-    <header class="title">
-      <h1>Ctrl$</h1>
-      <h2>UM JEITO FÁCIL DE CONTROLAR SUAS FINANÇAS</h2>
-    </header>
-    <div class="forms">
+    <app-header></app-header>
+    <div class="form">
       <h1>Criar Conta</h1>
-      <h2>Nome</h2>
       <form>
-        <input type="text" name="Name" />
+        <div>
+          <label for="name">Nome</label>
+          <input type="text" name="name" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" required />
+        </div>
+        <div>
+          <label for="password">Senha</label>
+          <input type="password" name="password" required />
+        </div>
+        <div>
+          <label for="cfPassowrd">Confirmar Senha</label>
+          <input type="password" name="cfPassowrd" required />
+        </div>
+        <div class="button">
+          <input type="submit" value="Criar Conta" />
+        </div>
       </form>
-      <h2>Email</h2>
-      <form>
-        <input type="email" name="Email" />
-      </form>
-      <h2>Senha</h2>
-      <form>
-        <input type="password" name="Password" />
-      </form>
-      <h2>Confirmar Senha</h2>
-      <form>
-        <input type="password" name="CfPassowrd" />
-      </form>
-      <div class="button">
-        <button>Criar Conta</button>
-      </div>
     </div>
     <footer>
       <h2>
