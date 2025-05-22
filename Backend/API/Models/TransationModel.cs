@@ -6,11 +6,11 @@
         public string Description { get; private set; }
         public string Status { get; private set; }
         public int Value { get; private set; }
-        public DateTime Date{ get;  private set; }
+        public DateTime? Date{ get;  private set; }
         public Guid UserId { get; set; }
         public UsersModel Users { get; set; } = null!;
 
-        public TransationModel(string description, string status ,int value, DateTime date, Guid userId)
+        public TransationModel(string description, string status ,int value, Guid userId, DateTime? date = null)
         {
             Id = Guid.NewGuid();
             Description = description;
@@ -20,7 +20,7 @@
             UserId = userId;
         }
 
-        public TransationModel(string description, string status, int value, DateTime date)
+        public TransationModel(string description, string status, int value, DateTime? date = null)
         {
             Id = Guid.NewGuid();
             Description = description;
@@ -29,7 +29,7 @@
             Date = date;
         }
 
-        public void ChangeAttributes(string description, int value, DateTime date)
+        public void ChangeAttributes(string description, int value, DateTime? date = null)
         {
             if (description != null) Description = description;
             if (value != default) Value = value;
