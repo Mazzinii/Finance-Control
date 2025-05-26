@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
-import { UserLogin } from '../../models/userLogin';
+import { UserLogin } from '../../models/userLogin.model';
 import { HomeImageComponent } from '../home-image/home-image.component';
 import { HeaderComponent } from '../header/header.component';
 import { FormsModule } from '@angular/forms';
-import { response } from 'express';
-import { error } from 'console';
 
 @Component({
   selector: 'app-form-create',
@@ -25,6 +23,7 @@ export class FormCreateComponent {
       password: this.password,
     };
   }
+
   users: User[] = [];
   private user: User = {
     name: 'testeangular',
