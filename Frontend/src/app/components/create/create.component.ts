@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { UserLogin } from '../../models/userLogin.model';
@@ -10,12 +10,14 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-form-create',
   imports: [HomeImageComponent, RouterLink, HeaderComponent, FormsModule],
-  templateUrl: './form-create.component.html',
-  styleUrl: './form-create.component.css',
+  templateUrl: './create.component.html',
+  styleUrl: './create.component.css',
 })
 export class FormCreateComponent {
   email: string = '';
   password: string = '';
+  erroLogin: boolean = false;
+  erromessage: string = '';
 
   get userLogin(): UserLogin {
     return {
@@ -31,7 +33,7 @@ export class FormCreateComponent {
     password: 'testeangular',
   };
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   /* getUsers() {
     this.userService.getUsers().subscribe((users) => {
@@ -50,11 +52,11 @@ export class FormCreateComponent {
    */
 
   login() {
-    this.userService.login(this.userLogin).subscribe(
+    var response = this.userService.login(this.userLogin).subscribe(
       (response) => console.log(response),
-      (error: any) => console.log(error),
-      () => console.log('Login Feito')
+      (error: any) =>
+        console.log(error, (this.erromessage = 'Email ou senha Incorretos')),
+      () => this.router.navigate(['/dashboard'])
     );
-    console.log(this.email);
   }
 }

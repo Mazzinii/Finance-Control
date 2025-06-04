@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { FormCreateComponent } from './components/form-create/form-create.component';
-import { FormRegisterComponent } from './components/form-register/form-register.component';
+import { FormCreateComponent } from './components/create/create.component';
+import { FormRegisterComponent } from './components/register/register.component';
+import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 
 export const routes: Routes = [
   {
@@ -10,5 +11,9 @@ export const routes: Routes = [
   {
     path: 'register',
     component: FormRegisterComponent,
+  },
+  {
+    path: 'dashboard',
+    component: UserDashboardComponent,
   },
 ];
