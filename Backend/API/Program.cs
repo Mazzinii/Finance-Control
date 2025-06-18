@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth();
 builder.Services.AddScoped<PersonTransationContext>();
@@ -20,6 +21,7 @@ builder.Services.AddScoped<LoginHashRequests>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAuthorization();
+builder.Services.AddAutoMapper(typeof(Program));
 
 //add Cors
 builder.Services.AddCors(options =>
@@ -59,9 +61,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("MyPolicy");
 app.UseHttpsRedirection();
-app.PersonRoutes();
 app.TransationRoutes();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 app.Run();
 

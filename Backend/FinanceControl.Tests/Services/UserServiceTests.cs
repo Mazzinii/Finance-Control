@@ -1,14 +1,35 @@
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using PersonTransation.Models.DTOs;
+using PersonTransation.Models.Entities;
 
 namespace FinanceControl.Tests.Service
 {
     public class UserServiceTests
     {
 
-        private readonly UserService _service = new UserService();
+        private readonly UserService _service;
+        private readonly Mock<IMapper> _mapper;
         private readonly Faker _faker = new Faker("pt_BR");
         private readonly Faker _faker1 = new Faker("pt_BR");
 
+        public UserServiceTests()
+        {
+            _mapper = new Mock<IMapper>();
+
+            //configurando o mapper para fazer a conversão correta List<>
+
+            _mapper.Setup(x => x.Map<List<UserDTO>>(It.IsAny<List<UserModel>>()))
+                    .Returns((List<UserModel> sourceList) => 
+                    sourceList.Select( user => new UserDTO
+                    {
+                        Name = user.Name,
+                        Email = user.Email,
+                        
+                    }).ToList());
+
+
+            _service = new UserService(_mapper.Object);
+        }
 
         //make tests to check wrong parameters if they returns exception
         //check if class returns when data is wrong 
@@ -25,7 +46,7 @@ namespace FinanceControl.Tests.Service
             string password = _faker.Person.UserName;
 
 
-            var person = new UsersModel(name, email, password);
+            var person = new UserModel(name, email, password);
             var context = new MockDb().CreateDbContext();
 
             // Act
@@ -49,7 +70,7 @@ namespace FinanceControl.Tests.Service
         public async Task Create_GivenNullPersonOrNullContext_ThenShouldReturnBadRequest()
         {
             // Arrange
-            UsersModel person = null;
+            UserModel person = null;
             var context = new MockDb().CreateDbContext();
 
             // Act
@@ -79,8 +100,8 @@ namespace FinanceControl.Tests.Service
             string password1 = _faker1.Person.Avatar;
 
 
-            var person = new UsersModel(name, email, password);
-            var newPerson = new UsersModel(name1, email1, password1);
+            var person = new UserModel(name, email, password);
+            var newPerson = new UserModel(name1, email1, password1);
             var context = new MockDb().CreateDbContext();
 
             // Act
@@ -105,7 +126,7 @@ namespace FinanceControl.Tests.Service
             string password = _faker.Person.UserName;
 
 
-            var person = new UsersModel(name, email, password);
+            var person = new UserModel(name, email, password);
             var context = new MockDb().CreateDbContext();
 
             // Act
@@ -130,8 +151,8 @@ namespace FinanceControl.Tests.Service
             string newPassword = _faker1.Person.UserName;
 
 
-            var person = new UsersModel(name, email, password);
-            var newPerson = new UsersModel(newName, newEmail, newPassword);
+            var person = new UserModel(name, email, password);
+            var newPerson = new UserModel(newName, newEmail, newPassword);
             var context = new MockDb().CreateDbContext();
 
             // Act
@@ -159,7 +180,7 @@ namespace FinanceControl.Tests.Service
             configMock.Setup(c => c["Key:Jwt"]).Returns("k9Lm2nQp4rT7vXw8yZ1aB3cD5eF6gH8jJ9lK0oP1iU2sV3bN4tM5xW6qY7zA");
 
             //Act
-            var person = new UsersModel(name, email, password);
+            var person = new UserModel(name, email, password);
             var resultAdd = await _service.Create(person, context);
             var login = new LoginHashRequests.LoginRequest(email, password);
             var token = new TokenService(configMock.Object);
@@ -193,8 +214,8 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             // Act
-            var person = new UsersModel(name, email, password);
-            var person2 = new UsersModel(name1, email1, password1);
+            var person = new UserModel(name, email, password);
+            var person2 = new UserModel(name1, email1, password1);
             await _service.Create(person, context);
             await _service.Create(person2, context);
             var result = await _service.Get(context, 1, 2);
@@ -203,7 +224,7 @@ namespace FinanceControl.Tests.Service
             Assert.NotNull(result);
 
             //Desserializa o conteudo do result
-            var okResult = (Ok<List<UsersModel>>)result;
+            var okResult = (Ok<List<UserDTO>>)result;
             var people = okResult.Value;
 
             Assert.NotNull(people);
@@ -226,8 +247,8 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var person = new UsersModel(name, email, password);
-            var patchPerson = new UsersModel(newName, newEmail, newPassword);
+            var person = new UserModel(name, email, password);
+            var patchPerson = new UserModel(newName, newEmail, newPassword);
             await _service.Create(person, context);
             await _service.Patch(patchPerson, context,person.Id);
 
@@ -252,8 +273,8 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var person = new UsersModel(name, email, password);
-            var invalidPersonId = new UsersModel(newName, newEmail, newPassword);
+            var person = new UserModel(name, email, password);
+            var invalidPersonId = new UserModel(newName, newEmail, newPassword);
             await _service.Create(person, context);
 
             var expected = await _service.Patch(person, context, invalidPersonId.Id);
@@ -279,7 +300,7 @@ namespace FinanceControl.Tests.Service
 
             //Act
 
-            var person = new UsersModel(name, email, password);
+            var person = new UserModel(name, email, password);
             await _service.Create(person, context);
             await _service.Delete(context, person.Id);
 

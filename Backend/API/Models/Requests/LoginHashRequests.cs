@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Services;
+using PersonTransation.Models.Entities;
 
 namespace PersonTransation.Models.Requests
 {
@@ -21,7 +22,7 @@ namespace PersonTransation.Models.Requests
 
         public async Task<string> Handle(LoginRequest req)
         {
-            UsersModel? person = await _personContext.Users
+            UserModel? person = await _personContext.Users
                 .FirstOrDefaultAsync(x => x.Email == req.Email);
 
             if (person == null)

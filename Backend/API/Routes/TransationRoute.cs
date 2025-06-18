@@ -1,7 +1,7 @@
 ﻿using Person.Data;
-using PersonTransation.Models;
 using Person.Models.Requests;
 using PersonTransation.Services;
+using PersonTransation.Models.Entities;
 
 namespace Person.Routes
 {
@@ -18,7 +18,7 @@ namespace Person.Routes
             routes.MapPost("Create",
                 async (TransationRequest request) =>
                 {
-                    var transation = new TransationModel(request.Description, request.Status, request.Value, request.PersonId, request.Date);
+                    var transation = new TransationModel(request.Description, request.Status, request.Value, request.Date, request.PersonId);
                     return await _service.Create(transation, _context);
 
                 })
@@ -36,7 +36,7 @@ namespace Person.Routes
             routes.MapGet("{value:int}/{date:Datetime}/{personId:Guid}", 
                 async (string description, string status, int value, DateTime date, Guid personId) =>
                 {
-                    var transation = new TransationModel(description, status, value, personId, date);
+                    var transation = new TransationModel(description, status, value, date, personId);
 
                     return await _service.GetId(transation, _context);
                 });

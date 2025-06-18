@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
-using PersonTransation.Models;
+using PersonTransation.Models.Entities;
 
 namespace PersonTransation.Services
 {

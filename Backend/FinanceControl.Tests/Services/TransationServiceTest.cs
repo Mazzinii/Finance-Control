@@ -1,4 +1,6 @@
-﻿namespace FinanceControl.Tests.Service
+﻿using PersonTransation.Models.Entities;
+
+namespace FinanceControl.Tests.Service
 {
 
 
@@ -126,8 +128,8 @@
             int expected = 1;
 
             //Act
-            var user = new UsersModel(name, email, password);
-            var user1 = new UsersModel(name1, email1, password1);
+            var user = new UserModel(name, email, password);
+            var user1 = new UserModel(name1, email1, password1);
             var transation = new TransationModel(description, status, value, date, user.Id);
             var transation1 = new TransationModel(description1, status1, value1, date1, user1.Id);
             await _service.Create(transation, context);

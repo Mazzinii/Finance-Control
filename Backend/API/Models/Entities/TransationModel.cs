@@ -1,4 +1,4 @@
-﻿namespace PersonTransation.Models
+﻿namespace PersonTransation.Models.Entities
 {
     public class TransationModel
     {
@@ -6,11 +6,11 @@
         public string Description { get; private set; }
         public string Status { get; private set; }
         public int Value { get; private set; }
-        public DateTime? Date{ get;  private set; }
+        public DateTime? Date { get; private set; }
         public Guid UserId { get; set; }
-        public UsersModel Users { get; set; } = null!;
+        public UserModel Users { get; set; } = null!;
 
-        public TransationModel(string description, string status ,int value, Guid userId, DateTime? date = null)
+        public TransationModel(string description, string status, int value, DateTime? date, Guid userId)
         {
             Id = Guid.NewGuid();
             Description = description;

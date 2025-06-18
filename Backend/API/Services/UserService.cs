@@ -1,14 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Person.Data;
-using PersonTransation.Models;
+using PersonTransation.Models.DTOs;
+using PersonTransation.Models.Entities;
 
 namespace PersonTransation.Services
 {
-    public class UserService : IModel<UsersModel> 
+    public class UserService : IModel<UserModel> 
     {
         //adicionar requests nos parametros para menor repetição de código
+        private readonly IMapper _mapper;
 
-        public async Task<IResult> Create(UsersModel person, PersonTransationContext context)
+        public UserService(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
+        public async Task<IResult> Create(UserModel person, PersonTransationContext context)
         {
             //validando entrada
             if(person == null || context == null)
@@ -43,7 +51,7 @@ namespace PersonTransation.Services
               
         }
 
-        public async Task<bool> CheckEmail(UsersModel person, PersonTransationContext context)
+        public async Task<bool> CheckEmail(UserModel person, PersonTransationContext context)
         {
             return await context.Users.AnyAsync(x => x.Email == person.Email);
 
@@ -58,7 +66,10 @@ namespace PersonTransation.Services
 
                 var pagination = person.Skip((page - 1) * limit).Take(limit).ToList();
 
-                return TypedResults.Ok(pagination);
+                
+                var paginationView = _mapper.Map<List<UserDTO>>(pagination);
+
+                return TypedResults.Ok(paginationView);
             }
             catch (Exception ex)
             {
@@ -67,7 +78,7 @@ namespace PersonTransation.Services
         }
 
          
-        public async Task<IResult> Patch(UsersModel person, PersonTransationContext context, Guid id)
+        public async Task<IResult> Patch(UserModel person, PersonTransationContext context, Guid id)
         {
             try
             {

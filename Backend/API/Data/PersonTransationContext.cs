@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PersonTransation.Models;
+using PersonTransation.Models.Entities;
 
 
 namespace Person.Data
 {
     public class PersonTransationContext : DbContext
     {
-        public  DbSet<UsersModel> Users { get; set; }
+        public  DbSet<UserModel> Users { get; set; }
         public  DbSet<TransationModel> Transations { get; set; }
        
         public PersonTransationContext() { }

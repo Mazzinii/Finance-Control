@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using AutoMapper;
 using Person.Data;
 using Person.Models.Requests;
-using PersonTransation.Models;
+using PersonTransation.Models.Entities;
 using PersonTransation.Models.Requests;
 using PersonTransation.Services;
 
@@ -10,8 +9,8 @@ namespace Person.Routes
 {
     public static class PersonRoute
     {
-
-        private static readonly UserService _service = new UserService();
+        private static readonly IMapper _mapper;
+        private static readonly UserService _service = new UserService(_mapper);
         private static readonly PersonTransationContext _context = new PersonTransationContext();
 
         public static void PersonRoutes(this WebApplication app)
@@ -23,9 +22,9 @@ namespace Person.Routes
 
             //Create
             routes.MapPost("",
-                async (PersonRequest req) =>
+                async (UserRequest req) =>
                 {
-                    var person = new UsersModel(req.Name, req.Email, req.Password);
+                    var person = new UserModel(req.Name, req.Email, req.Password);
 
                     return await _service.Create(person, _context);              
                 });
@@ -50,9 +49,9 @@ namespace Person.Routes
 
             //Update
             routes.MapPatch("{id:Guid}",
-                async (Guid id, PersonRequest req) =>
+                async (Guid id, UserRequest req) =>
                 {
-                    var person = new UsersModel(req.Name,req.Email,req.Password);
+                    var person = new UserModel(req.Name,req.Email,req.Password);
 
                     return await _service.Patch(person, _context,id);
 
