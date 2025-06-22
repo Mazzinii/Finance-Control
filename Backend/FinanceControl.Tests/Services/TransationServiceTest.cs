@@ -1,4 +1,6 @@
-﻿using PersonTransation.Models.Entities;
+﻿using AutoMapper;
+using PersonTransation.Models.DTOs;
+using PersonTransation.Models.Entities;
 
 namespace FinanceControl.Tests.Service
 {
@@ -6,9 +8,32 @@ namespace FinanceControl.Tests.Service
 
     public class TransationServiceTest
     {
-        private readonly TransationService _service = new TransationService();
+        private readonly TransationService _service;
+        private readonly Mock<IMapper> _mapper;
         private readonly Faker _faker = new Faker("pt_BR");
         private readonly Faker _faker1 = new Faker("pt_BR");
+
+        public TransationServiceTest()
+        {
+            _mapper = new Mock<IMapper>();
+
+            //configurando o IMapper
+
+            _mapper.Setup(x => x.Map<List<TransationDTO>>(It.IsAny<List<TransationModel>>()))
+                    .Returns((List<TransationModel> sourceList) =>
+                    sourceList.Select(transation => new TransationDTO
+                    {
+                        Description = transation.Description,
+                        Status = transation.Status,
+                        Value = transation.Value,
+                        Date = transation.Date,
+
+                    }).ToList());
+
+            _service = new TransationService(_mapper.Object);
+        }
+
+
 
         // List <string> transationStatus = new List<string>() { "entrada", "saida"};
         //make tests to check wong parameters if they returns exception
@@ -141,7 +166,7 @@ namespace FinanceControl.Tests.Service
             Assert.NotNull(result);
 
             //Desserializa o conteudo do result
-            var okResult = (Ok<List<TransationModel>>)result;
+            var okResult = (Ok<List<TransationDTO>>)result;
             var transations = okResult.Value;
 
             Assert.NotNull(transations);

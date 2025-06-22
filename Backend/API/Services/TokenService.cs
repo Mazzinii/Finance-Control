@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using PersonTransation.Models.DTOs;
 using PersonTransation.Models.Entities;
 
 namespace Person.Services
@@ -15,7 +16,7 @@ namespace Person.Services
             _configuration = configuration;
         }
 
-        public string GenerateToken(UserModel person)
+        public LoginDTO GenerateToken(UserModel person)
         {
             var key = _configuration["Key:Jwt"];
             var tokenConfig = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -35,9 +36,14 @@ namespace Person.Services
             var tokenhandler = new JsonWebTokenHandler();
 
             var token = tokenhandler.CreateToken(tokenDescriptor);
-            
 
-            return $"Token: {token}/ Id: {person.Id}/";
+            var loginDto = new LoginDTO
+            {
+                UserId = person.Id,
+                Token = token
+            };
+
+            return loginDto;
         }
     }
 }

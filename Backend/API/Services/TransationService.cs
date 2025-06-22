@@ -1,12 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Person.Data;
+using PersonTransation.Models.DTOs;
 using PersonTransation.Models.Entities;
 
 namespace PersonTransation.Services
 {
     public class TransationService : IModel<TransationModel>
     {
-        
+
+        private readonly IMapper _mapper;
+
+        public TransationService(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         public async Task<IResult> Create(TransationModel transation, PersonTransationContext context)
         {
             try
@@ -28,7 +37,9 @@ namespace PersonTransation.Services
 
                 var pagination = transation.Skip((page - 1) * limit).Take(limit).ToList();
 
-                return TypedResults.Ok(pagination);
+                var paginationView = _mapper.Map<List<TransationDTO>>(pagination);
+
+                return TypedResults.Ok(paginationView);
             }
             catch(Exception ex)
             {

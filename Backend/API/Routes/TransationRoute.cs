@@ -2,12 +2,14 @@
 using Person.Models.Requests;
 using PersonTransation.Services;
 using PersonTransation.Models.Entities;
+using AutoMapper;
 
 namespace Person.Routes
 {
     public static class TransationRoute
     {
-        private static readonly TransationService _service = new TransationService();
+        private static readonly IMapper _mapper;
+        private static readonly TransationService _service = new TransationService(_mapper);
         private static readonly PersonTransationContext _context = new PersonTransationContext();
 
         public static void TransationRoutes(this WebApplication app)

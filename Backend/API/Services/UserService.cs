@@ -39,7 +39,13 @@ namespace PersonTransation.Services
                     context.Add(person);
                     await context.SaveChangesAsync();
                     //retorna response 201 created com a localização do recurso criado
-                    return TypedResults.Created($"/Person/{person.Id}", person);
+
+                    var userId = new CreateUserDTO
+                    {
+                        UserId = person.Id,
+                    };
+                     
+                    return TypedResults.Created<CreateUserDTO>($"user/{userId}", userId);
                 }
             }
             // trata exceções e retorna um erro interno 

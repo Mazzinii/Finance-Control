@@ -191,8 +191,8 @@ namespace FinanceControl.Tests.Service
             Assert.NotNull(person.Name);
             Assert.NotNull(person.Email);
             Assert.NotNull(person.Password);
-            Assert.DoesNotContain("The password is incorrect", resultLogin);
-            Assert.DoesNotContain("The user was not found", resultLogin);
+            Assert.DoesNotContain("The password is incorrect", resultLogin.Token);
+            Assert.DoesNotContain("The user was not found", resultLogin.Token);
 
         }
 

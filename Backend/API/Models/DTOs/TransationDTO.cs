@@ -2,9 +2,9 @@
 {
     public class TransationDTO
     {
-        public string Description { get; private set; }
-        public string Status { get; private set; }
-        public int Value { get; private set; }
-        public DateTime? Date { get; private set; }
+        public string Description { get;  set; }
+        public string Status { get;  set; }
+        public int Value { get;  set; }
+        public DateTime? Date { get; set; }
     }
 }

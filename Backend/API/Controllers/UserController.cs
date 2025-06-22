@@ -7,7 +7,7 @@ using PersonTransation.Services;
 
 namespace PersonTransation.Controllers
 {
-    [Route("api/v1")]
+    [Route("api/v1/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace PersonTransation.Controllers
             _service = service;
         }
 
-        [HttpPost("user")]
+        [HttpPost]
         public async Task<IResult> CreateUser(UserRequest req)
         {
             var person = new UserModel(req.Name, req.Email, req.Password);
@@ -27,20 +27,20 @@ namespace PersonTransation.Controllers
             return await _service.Create(person, _context);
         }
 
-        [HttpPost("user/login")]
+        [HttpPost("/login")]
         public async Task<IResult> LoginUser(LoginHashRequests.LoginRequest req, LoginHashRequests login)
         {
             var person = await login.Handle(req);
             return Results.Ok(person);
         }
 
-        [HttpGet("user/{page}/{limit}")]
+        [HttpGet("/{page}/{limit}")]
         public async Task<IResult> GetUserPagination(int page, int limit)
         {
             return await _service.Get(_context, page, limit);
         }
 
-        [HttpPatch("user/{id}")]
+        [HttpPatch("/{id}")]
         public async Task<IResult> PatchUser(Guid id, UserRequest req)
         {
 
@@ -49,7 +49,7 @@ namespace PersonTransation.Controllers
             return await _service.Patch(person, _context, id);
         }
 
-        [HttpDelete("user/{id}")]
+        [HttpDelete("/{id}")]
         public async Task<IResult> DeleteUser(Guid id)
         {
             return await _service.Delete(_context, id);

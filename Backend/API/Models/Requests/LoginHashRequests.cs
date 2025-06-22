@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Person.Data;
 using Person.Services;
+using PersonTransation.Models.DTOs;
 using PersonTransation.Models.Entities;
 
 namespace PersonTransation.Models.Requests
@@ -20,7 +21,7 @@ namespace PersonTransation.Models.Requests
 
         public record LoginRequest(string Email, string Password);
 
-        public async Task<string> Handle(LoginRequest req)
+        public async Task<LoginDTO> Handle(LoginRequest req)
         {
             UserModel? person = await _personContext.Users
                 .FirstOrDefaultAsync(x => x.Email == req.Email);
@@ -33,9 +34,9 @@ namespace PersonTransation.Models.Requests
             if (!verified)
                 throw new Exception("The password is incorrect");
 
-            string token = _tokenService.GenerateToken(person);
+            var loginDTO = _tokenService.GenerateToken(person);
 
-            return token;
+            return loginDTO;
         }
     }
 }

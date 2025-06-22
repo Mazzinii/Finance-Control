@@ -10,6 +10,9 @@ namespace PersonTransation.Models.Profiles
         {
             //User
             CreateMap<UserModel, UserDTO>();
+
+            //Transation 
+            CreateMap<TransationModel, TransationDTO>();
             
         }
     }

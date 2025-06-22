@@ -7,6 +7,7 @@ using PersonTransation.Models.Requests;
 using Person.Routes;
 using Person.Services;
 using PersonTransation.Services;
+using PersonTransation.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddScoped<PersonTransationContext>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddScoped<LoginHashRequests>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<TransationService>();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAuthorization();
 builder.Services.AddAutoMapper(typeof(Program));
@@ -61,7 +63,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("MyPolicy");
 app.UseHttpsRedirection();
-app.TransationRoutes();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
