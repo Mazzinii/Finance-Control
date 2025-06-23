@@ -12,11 +12,12 @@ namespace PersonTransation.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _service;
-        private readonly PersonTransationContext _context = new PersonTransationContext();
+        private readonly PersonTransationContext _context;
 
-        public UserController(UserService service)
+        public UserController(UserService service, PersonTransationContext context)
         {
             _service = service;
+            _context = context;
         }
 
         [HttpPost]
@@ -27,20 +28,20 @@ namespace PersonTransation.Controllers
             return await _service.Create(person, _context);
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task<IResult> LoginUser(LoginHashRequests.LoginRequest req, LoginHashRequests login)
         {
             var person = await login.Handle(req);
             return Results.Ok(person);
         }
 
-        [HttpGet("/{page}/{limit}")]
+        [HttpGet("{page}/{limit}")]
         public async Task<IResult> GetUserPagination(int page, int limit)
         {
             return await _service.Get(_context, page, limit);
         }
 
-        [HttpPatch("/{id}")]
+        [HttpPatch("{id}")]
         public async Task<IResult> PatchUser(Guid id, UserRequest req)
         {
 
@@ -49,7 +50,7 @@ namespace PersonTransation.Controllers
             return await _service.Patch(person, _context, id);
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IResult> DeleteUser(Guid id)
         {
             return await _service.Delete(_context, id);

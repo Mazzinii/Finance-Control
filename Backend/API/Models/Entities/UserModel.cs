@@ -1,10 +1,12 @@
-﻿using Person.Services;
+﻿using System.ComponentModel.DataAnnotations;
+using Person.Services;
 
 namespace PersonTransation.Models.Entities
 {
     public class UserModel
     {
-        public Guid Id { get; init; }
+        [Key]
+        public Guid UserId { get; init; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
@@ -14,7 +16,7 @@ namespace PersonTransation.Models.Entities
 
         public UserModel(string name, string email, string password)
         {
-            Id = Guid.NewGuid();
+            UserId = Guid.NewGuid();
             Name = name;
             Email = email;
             Password = passwordHash.Hash(password);

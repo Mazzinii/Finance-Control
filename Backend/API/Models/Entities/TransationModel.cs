@@ -1,14 +1,20 @@
-﻿namespace PersonTransation.Models.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PersonTransation.Models.Entities
 {
     public class TransationModel
     {
+        [Key]
         public Guid Id { get; init; }
         public string Description { get; private set; }
         public string Status { get; private set; }
         public int Value { get; private set; }
         public DateTime? Date { get; private set; }
         public Guid UserId { get; set; }
-        public UserModel Users { get; set; } = null!;
+        [ForeignKey("UserId")]
+        public UserModel User { get; set; } 
+
 
         public TransationModel(string description, string status, int value, DateTime? date, Guid userId)
         {

@@ -26,7 +26,7 @@ namespace Person.Services
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
                 {
-                    new Claim("PersonId", person.Id.ToString())
+                    new Claim("PersonId", person.UserId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(3),
                 SigningCredentials = credentials,
@@ -39,7 +39,7 @@ namespace Person.Services
 
             var loginDto = new LoginDTO
             {
-                UserId = person.Id,
+                UserId = person.UserId,
                 Token = token
             };
 

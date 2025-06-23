@@ -250,7 +250,7 @@ namespace FinanceControl.Tests.Service
             var person = new UserModel(name, email, password);
             var patchPerson = new UserModel(newName, newEmail, newPassword);
             await _service.Create(person, context);
-            await _service.Patch(patchPerson, context,person.Id);
+            await _service.Patch(patchPerson, context,person.UserId);
 
             //Assert
             Assert.NotNull(person);
@@ -277,7 +277,7 @@ namespace FinanceControl.Tests.Service
             var invalidPersonId = new UserModel(newName, newEmail, newPassword);
             await _service.Create(person, context);
 
-            var expected = await _service.Patch(person, context, invalidPersonId.Id);
+            var expected = await _service.Patch(person, context, invalidPersonId.UserId);
 
             //Assert
             var badRequestResult = Assert.IsType<BadRequest<string>>(expected);
@@ -302,10 +302,10 @@ namespace FinanceControl.Tests.Service
 
             var person = new UserModel(name, email, password);
             await _service.Create(person, context);
-            await _service.Delete(context, person.Id);
+            await _service.Delete(context, person.UserId);
 
             //Assert
-            var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.Id == person.Id);
+            var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.UserId == person.UserId);
             Assert.Null(hasPerson);
         }
 

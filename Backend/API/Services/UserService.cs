@@ -42,7 +42,7 @@ namespace PersonTransation.Services
 
                     var userId = new CreateUserDTO
                     {
-                        UserId = person.Id,
+                        UserId = person.UserId,
                     };
                      
                     return TypedResults.Created<CreateUserDTO>($"user/{userId}", userId);
@@ -88,7 +88,7 @@ namespace PersonTransation.Services
         {
             try
             {
-                var hasId = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+                var hasId = await context.Users.FirstOrDefaultAsync(x => x.UserId == id);
 
                 if (hasId == null)
                     return TypedResults.BadRequest("Invalid Id");
@@ -109,7 +109,7 @@ namespace PersonTransation.Services
         {
             try
             {
-                var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+                var hasPerson = await context.Users.FirstOrDefaultAsync(x => x.UserId == id);
 
                 if (hasPerson == null)
                     return TypedResults.BadRequest("Invalid Id");

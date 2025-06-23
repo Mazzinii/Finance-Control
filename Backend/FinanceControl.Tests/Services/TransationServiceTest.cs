@@ -155,11 +155,11 @@ namespace FinanceControl.Tests.Service
             //Act
             var user = new UserModel(name, email, password);
             var user1 = new UserModel(name1, email1, password1);
-            var transation = new TransationModel(description, status, value, date, user.Id);
-            var transation1 = new TransationModel(description1, status1, value1, date1, user1.Id);
+            var transation = new TransationModel(description, status, value, date, user.UserId);
+            var transation1 = new TransationModel(description1, status1, value1, date1, user1.UserId);
             await _service.Create(transation, context);
             await _service.Create(transation1, context);
-            var result = await _service.Get(context,user.Id, 1, 1);
+            var result = await _service.Get(context,user.UserId, 1, 1);
 
 
             //Assert

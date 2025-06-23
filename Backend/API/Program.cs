@@ -4,10 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using Person.Data;
 using Person.Extensions;
 using PersonTransation.Models.Requests;
-using Person.Routes;
 using Person.Services;
 using PersonTransation.Services;
-using PersonTransation.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

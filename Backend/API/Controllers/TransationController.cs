@@ -11,11 +11,12 @@ namespace PersonTransation.Controllers
     public class TransationController : ControllerBase
     {
         private readonly TransationService _service;
-        private readonly PersonTransationContext _context = new PersonTransationContext();
+        private readonly PersonTransationContext _context;
 
-        public TransationController(TransationService service)
+        public TransationController(TransationService service, PersonTransationContext context)
         {
             _service = service;
+            _context = context;
         }
 
         [HttpPost]
@@ -25,13 +26,13 @@ namespace PersonTransation.Controllers
             return await _service.Create(transation, _context);
         }
 
-        [HttpGet("/{personId:guid}/{page:int}/{limit:int}")]
+        [HttpGet("{personId:guid}/{page:int}/{limit:int}")]
         public async Task<IResult> GetTransation(Guid personId, int page, int limit)
         {
             return await _service.Get(_context, personId, page, limit);
         }
 
-        [HttpGet("/{personId:guid}/{descripition}/{value:int}")]
+        [HttpGet("{personId:guid}/{descripition}/{value:int}")]
         public async Task<IResult> GetTransationId(string description, string status, int value, DateTime date, Guid personId)
         {
 
@@ -40,7 +41,7 @@ namespace PersonTransation.Controllers
             return await _service.GetId(transation, _context);
         }
 
-        [HttpPatch("/{transationId:guid}")]
+        [HttpPatch("{transationId:guid}")]
         public async Task<IResult> PatchTransation(Guid transationId, TransationRequest oldRequest)
         {
             var patchedTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date);
@@ -49,7 +50,7 @@ namespace PersonTransation.Controllers
             return await _service.Patch(patchedTransation, _context, transationId);
         }
 
-        [HttpDelete("/{transationId:guid}")]
+        [HttpDelete("{transationId:guid}")]
         public async Task<IResult> deleteTransation(Guid transationId)
         {
             return await _service.Delete(_context, transationId);
