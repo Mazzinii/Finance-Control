@@ -3,22 +3,28 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+name: CI/CD
+
 trigger:
 - main
 
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+   - stage: CI
+     displayName: 'CI - Pipeline de CI'
+     jobs:
+     - job: Build
+       displayName: 'Build do Projeto' 
+       steps:  
+        - task: DotNetCoreCLI@2
+          inputs:
+            azureSubscription: 'Azure subscription 1(1)(7c2c3e39-4083-45dc-8cb9-8b00539e5f73)'
+            command: 'build'
+            projects: 'Backend/API/FinanceControl.sln'
+      
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-- task: DotNetCoreCLI@2
-  inputs:
-    azureSubscription: 'Azure subscription 1(7c2c3e39-4083-45dc-8cb9-8b00539e5f73)'
-    command: 'build'
-    projects: 'Backend/API/FinanceControl.sln'
+
+
+    
