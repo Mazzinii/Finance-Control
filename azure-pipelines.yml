@@ -16,15 +16,19 @@ stages:
      displayName: 'CI - Pipeline de CI'
      jobs:
      - job: Build
-       displayName: 'Build do Projeto'
+       displayName: 'Build e Testes do Projeto'
        steps:  
         - task: DotNetCoreCLI@2
           inputs:
             azureSubscription: 'Azure subscription 1(1)(7c2c3e39-4083-45dc-8cb9-8b00539e5f73)'
             command: 'build'
-            projects: 'Backend/API/FinanceControl.sln'
-      
-
+            projects: './Backend/API/FinanceControl.sln'
+     
+        - task: DotNetCoreCLI@2
+          inputs:
+            azureSubscription: 'Azure subscription 1(7c2c3e39-4083-45dc-8cb9-8b00539e5f73)'
+            command: 'test'
+            projects: './Backend/FinanceControl.Tests/FinanceControl.Tests.csproj'
 
 
     
