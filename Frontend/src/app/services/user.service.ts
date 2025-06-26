@@ -12,14 +12,14 @@ export class UserService {
   private httpClient = inject(HttpClient);
 
   getUsers() {
-    return this.httpClient.get<User[]>(this._url + '/User?page=1&limit=10');
+    return this.httpClient.get<User[]>(this._url + '/user?page=1&limit=10');
   }
 
   createUser(user: User) {
-    return this.httpClient.post<User>(`${this._url}/User`, user);
+    return this.httpClient.post<User>(`${this._url}/user`, user);
   }
 
   login(userLogin: UserLogin) {
-    return this.httpClient.post<User>(`${this._url}/User/Login`, userLogin);
+    return this.httpClient.post<User>(`${this._url}/user/login`, userLogin);
   }
 }

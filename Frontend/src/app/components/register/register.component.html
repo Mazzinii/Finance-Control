@@ -31,6 +31,13 @@
             required
           />
         </div>
+        <div class="{{ class }}">
+          @if(class == 'error') {
+          <p>{{ erroMessage }}</p>
+          } @else {
+          <p>{{ message }}</p>
+          }
+        </div>
         <div class="button">
           <input (click)="crateUser()" type="submit" value="Criar Conta" />
         </div>

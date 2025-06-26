@@ -75,6 +75,13 @@
     color: red;
   }
 
+  .message {
+    display: flex;
+    justify-content: center;
+    width: 350px;
+    color: #ff735c;
+  }
+
   .button {
     display: flex;
     justify-content: center;

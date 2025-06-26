@@ -17,6 +17,9 @@ export class FormRegisterComponent {
   email: string = '';
   password: string = '';
   cfPassword: string = '';
+  message: string = '';
+  erroMessage: string = '';
+  class: string = '';
 
   get userRegister(): User {
     return {
@@ -31,8 +34,13 @@ export class FormRegisterComponent {
   crateUser() {
     this.userService.createUser(this.userRegister).subscribe(
       (response) => console.log(response),
-      (error: any) => console.log(error),
-      () => console.log('Cadastro Feito com Sucesso')
+      (error: any) =>
+        console.log(
+          error,
+          ((this.erroMessage = 'Este e-mail já está vinculado a uma conta'),
+          (this.class = 'error'))
+        ),
+      () => ((this.message = 'Cadastro Realizado'), (this.class = 'message'))
     );
   }
 }

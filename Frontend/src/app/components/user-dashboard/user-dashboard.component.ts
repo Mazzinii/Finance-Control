@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { SummaryComponent } from '../summary/summary.component';
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [],
+  imports: [SummaryComponent],
   templateUrl: './user-dashboard.component.html',
-  styleUrl: './user-dashboard.component.css'
+  styleUrl: './user-dashboard.component.css',
 })
-export class UserDashboardComponent {
-
-}
+export class UserDashboardComponent {}
