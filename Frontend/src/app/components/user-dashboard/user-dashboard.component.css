@@ -1,4 +1,57 @@
 .dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 3rem 0;
   width: 50vw;
-  height: 100vh;
+  height: calc(100vh - 6rem);
+
+  border-left: 3px #ff735c solid;
+
+  & h2 {
+    margin: 0.5rem 0 0 3rem;
+  }
+  & b {
+    color: #ff735c;
+  }
+
+  & form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    & div {
+      text-align: center;
+    }
+
+    & input,
+    select {
+      margin-top: 0.5rem;
+      padding: 0.2rem 0 0.2rem 0.2rem;
+    }
+
+    & .button {
+      & input {
+        font-size: 20px;
+        background-color: #ff735c;
+        border: none;
+        border-radius: 0.2rem;
+        padding: 0.1rem 0.8rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+  & .title-transation {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  & .list-transation {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
 }

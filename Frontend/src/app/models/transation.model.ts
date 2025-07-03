@@ -1,7 +1,8 @@
 export interface Transation {
-  Description: string;
-  Status: string;
-  Value: number;
-  DateTime: Date;
-  UserGuid: string;
+  id?: string;
+  description: string;
+  status: string;
+  value: number;
+  date?: string;
+  userGuid: string;
 }

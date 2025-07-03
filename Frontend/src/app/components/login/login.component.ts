@@ -12,7 +12,7 @@ import { LoginResponse } from '../../models/loginResponse.model';
   selector: 'app-form-create',
   imports: [HomeImageComponent, RouterLink, HeaderComponent, FormsModule],
   templateUrl: './create.component.html',
-  styleUrl: './create.component.css',
+  styleUrl: './login.component.css',
 })
 export class FormCreateComponent {
   email: string = '';
