@@ -33,13 +33,6 @@ export class FormCreateComponent {
     };
   }
 
-  users: User[] = [];
-  private user: User = {
-    name: 'testeangular',
-    email: 'testeangular',
-    password: 'testeangular',
-  };
-
   constructor(private userService: UserService, private router: Router) {}
 
   /* getUsers() {

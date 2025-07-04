@@ -11,6 +11,13 @@ export class TransationService {
 
   private httpClient = inject(HttpClient);
 
+  createTransation(transation: Transation) {
+    return this.httpClient.post<Transation>(
+      `${this._url}/transation`,
+      transation
+    );
+  }
+
   getTransation(personId: string, page: number, limit: number) {
     return this.httpClient.get<Transation[]>(
       `${this._url}/transation/${personId}/${page}/${limit}`

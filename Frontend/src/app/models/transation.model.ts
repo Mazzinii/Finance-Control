@@ -3,6 +3,6 @@ export interface Transation {
   description: string;
   status: string;
   value: number;
-  date?: string;
-  userGuid: string;
+  personId: string;
+  date?: Date;
 }

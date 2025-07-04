@@ -43,15 +43,23 @@
     }
   }
 
-  & .title-transation {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
+  table {
+    margin: 0 3rem;
   }
 
-  & .list-transation {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
+  & table,
+  th,
+  td {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    text-align: center;
+
+    th {
+      padding: 1rem;
+    }
+
+    td {
+      padding: 0.5rem;
+    }
   }
 }

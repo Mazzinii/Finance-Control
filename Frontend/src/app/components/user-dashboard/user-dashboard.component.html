@@ -6,63 +6,52 @@
       <div>
         <label for="description">Descrição</label>
         <br />
-        <input type="text" name="description" required />
+        <input
+          type="text"
+          [(ngModel)]="description"
+          name="description"
+          required
+        />
       </div>
       <div>
         <label for="value">Valor</label>
         <br />
-        <input type="number" name="value" />
+        <input type="number" [(ngModel)]="value" name="value" />
       </div>
       <div>
         <label for="status">Status</label>
         <br />
-        <select name="text" id="status">
-          <option value="Entrada">Entrada</option>
-          <option value="Saida">Saida</option>
+        <select name="text" id="status" [(ngModel)]="selectedoption">
+          @for (option of options; track $index) {
+          <option value="{{ option.label }}">{{ option.label }}</option>
+          }
         </select>
       </div>
       <div>
         <label for="date">Data</label>
         <br />
-        <input type="datetime" name="date" />
+        <input type="datetime" [(ngModel)]="date" name="date" />
       </div>
       <div class="button">
         <br />
-        <input type="submit" value="+" />
+        <input type="submit" (click)="createUpdatePage()" value="+" />
       </div>
     </form>
-    <div class="title-transation">
-      <div>
-        <h2>Descrição</h2>
-      </div>
-      <div>
-        <h2>Valor</h2>
-      </div>
-      <div>
-        <h2>Status</h2>
-      </div>
-      <div>
-        <h2>Data</h2>
-      </div>
-    </div>
-    <div>
+    <table class="title-transation">
+      <tr>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Status</th>
+        <th>Data</th>
+      </tr>
       @for (transation of transations; track transation) {
-      <div class="list-transation">
-        <div>
-          <p>{{ transation.description }}</p>
-        </div>
-        <div>
-          <p>{{ transation.value }}</p>
-        </div>
-        <div>
-          <p>{{ transation.status }}</p>
-        </div>
-        <div>
-          <p>{{ transation.date }}</p>
-        </div>
-      </div>
-
+      <tr>
+        <td>{{ transation.description }}</td>
+        <td>{{ transation.value }}</td>
+        <td>{{ transation.status }}</td>
+        <td>{{ transation.date }}</td>
+      </tr>
       }
-    </div>
+    </table>
   </div>
 </div>
