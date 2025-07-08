@@ -11,7 +11,6 @@ export class SummaryComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['transations']) {
       this.transationCalc();
-      console.log(this.balance);
     }
   }
 
@@ -20,6 +19,7 @@ export class SummaryComponent {
   entry: number = 0;
   exit: number = 0;
   balance: number = 0;
+  balanceStatus = '';
 
   transationCalc() {
     this.entry = 0;
@@ -35,5 +35,11 @@ export class SummaryComponent {
     }
 
     this.balance = this.entry - this.exit;
+    this.balanceCheck();
+  }
+
+  balanceCheck() {
+    if (this.balance > 0) this.balanceStatus = 'values-green';
+    else this.balanceStatus = 'values-red';
   }
 }

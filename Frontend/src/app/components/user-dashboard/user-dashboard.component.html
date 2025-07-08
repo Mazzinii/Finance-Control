@@ -39,21 +39,26 @@
         <input type="submit" (click)="postTransations()" value="+" />
       </div>
     </form>
-    <table class="title-transation">
-      <tr>
-        <th>Descrição</th>
-        <th>Valor</th>
-        <th>Status</th>
-        <th>Data</th>
-      </tr>
-      @for (transation of transations; track transation) {
-      <tr>
-        <td>{{ transation.description }}</td>
-        <td>{{ transation.value }}</td>
-        <td>{{ transation.status }}</td>
-        <td>{{ transation.formatedDate }}</td>
-      </tr>
-      }
-    </table>
+    <div class="scrollable-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th>Data</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        @for (transation of transations; track transation) {
+        <tr>
+          <td>{{ transation.description }}</td>
+          <td>{{ transation.value }}</td>
+          <td>{{ transation.status }}</td>
+          <td>{{ transation.formatedDate }}</td>
+        </tr>
+        }
+      </table>
+    </div>
   </div>
 </div>

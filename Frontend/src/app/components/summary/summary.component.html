@@ -2,21 +2,21 @@
   <div class="summary">
     <h1 class="summarytitle">Resumo</h1>
     <div class="summarycontainer">
-      <h1 class="entry">Entrada</h1>
+      <h1 class="labels">Entrada</h1>
       <div class="values">
-        <p>{{ entry }}</p>
+        <h2>R$ {{ entry }}</h2>
       </div>
     </div>
     <div class="summarycontainer">
-      <h1 class="exit">Saída</h1>
+      <h1 class="labels">Saída</h1>
       <div class="values">
-        <p>{{ exit }}</p>
+        <h2>R$ {{ exit }}</h2>
       </div>
     </div>
     <div class="summarycontainer">
-      <h1 class="balance">Saldo</h1>
-      <div class="values">
-        <p>{{ balance }}</p>
+      <h1 class="labels">Saldo</h1>
+      <div class="{{ balanceStatus }}">
+        <h2>R$ {{ balance }}</h2>
       </div>
     </div>
   </div>
