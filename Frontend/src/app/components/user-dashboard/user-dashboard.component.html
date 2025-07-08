@@ -1,7 +1,9 @@
 <div class="main-layout">
-  <app-summary></app-summary>
+  <app-summary [transations]="transations"></app-summary>
   <div class="dashboard">
-    <h2>Extrato de <b>Nome da pessoa</b></h2>
+    <h2>
+      Extrato de <b>{{ loginResponse.name }}</b>
+    </h2>
     <form>
       <div>
         <label for="description">Descrição</label>
@@ -21,7 +23,7 @@
       <div>
         <label for="status">Status</label>
         <br />
-        <select name="text" id="status" [(ngModel)]="selectedoption">
+        <select name="text" id="status" [(ngModel)]="selectedoption" required>
           @for (option of options; track $index) {
           <option value="{{ option.label }}">{{ option.label }}</option>
           }
@@ -30,11 +32,11 @@
       <div>
         <label for="date">Data</label>
         <br />
-        <input type="datetime" [(ngModel)]="date" name="date" />
+        <input type="date" [(ngModel)]="currentDate" name="date" />
       </div>
       <div class="button">
         <br />
-        <input type="submit" (click)="createUpdatePage()" value="+" />
+        <input type="submit" (click)="postTransations()" value="+" />
       </div>
     </form>
     <table class="title-transation">
@@ -49,7 +51,7 @@
         <td>{{ transation.description }}</td>
         <td>{{ transation.value }}</td>
         <td>{{ transation.status }}</td>
-        <td>{{ transation.date }}</td>
+        <td>{{ transation.formatedDate }}</td>
       </tr>
       }
     </table>

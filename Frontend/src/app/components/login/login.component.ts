@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
 import { UserLogin } from '../../models/userLogin.model';
 import { HomeImageComponent } from '../home-image/home-image.component';
 import { HeaderComponent } from '../header/header.component';
@@ -21,7 +20,8 @@ export class FormCreateComponent {
   erroLogin: boolean = false;
   erroMessage: string = '';
 
-  data: LoginResponse = {
+  loginResponse: LoginResponse = {
+    name: '',
     token: '',
     userId: '',
   };
@@ -54,15 +54,17 @@ export class FormCreateComponent {
   login() {
     var response = this.userService.login(this.userLogin).subscribe(
       (response) =>
-        (this.data = {
+        (this.loginResponse = {
+          name: (response as any).name,
           token: (response as any).token,
           userId: (response as any).userId,
         }),
       (error: any) =>
         console.log(error, (this.erroMessage = 'Email ou Senha Incorretos')),
       () => {
-        this.router.navigate(['/dashboard']);
-        console.log(this.data.token);
+        this.router.navigate(['/dashboard'], {
+          state: { data: this.loginResponse },
+        });
       }
     );
   }

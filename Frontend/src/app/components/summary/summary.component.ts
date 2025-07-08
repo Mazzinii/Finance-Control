@@ -1,11 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Transation } from '../../models/transation.model';
 
 @Component({
   selector: 'app-summary',
   imports: [],
   templateUrl: './summary.component.html',
-  styleUrl: './summary.component.css'
+  styleUrl: './summary.component.css',
 })
 export class SummaryComponent {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['transations']) {
+      this.transationCalc();
+      console.log(this.balance);
+    }
+  }
 
+  @Input() transations: Transation[] = [];
+
+  entry: number = 0;
+  exit: number = 0;
+  balance: number = 0;
+
+  transationCalc() {
+    this.entry = 0;
+    this.exit = 0;
+
+    for (let index = 0; index < this.transations.length; index++) {
+      if (this.transations[index].status == 'Entrada') {
+        this.entry += this.transations[index].value;
+      }
+      if (this.transations[index].status == 'Saída') {
+        this.exit += this.transations[index].value;
+      }
+    }
+
+    this.balance = this.entry - this.exit;
+  }
 }

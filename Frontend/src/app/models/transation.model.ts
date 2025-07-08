@@ -5,4 +5,5 @@ export interface Transation {
   value: number;
   personId: string;
   date?: Date;
+  formatedDate?: string;
 }
