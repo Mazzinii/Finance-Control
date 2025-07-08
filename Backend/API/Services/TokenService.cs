@@ -39,6 +39,7 @@ namespace Person.Services
 
             var loginDto = new LoginDTO
             {
+                Name = person.Name,
                 UserId = person.UserId,
                 Token = token
             };
