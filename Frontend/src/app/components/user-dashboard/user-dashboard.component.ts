@@ -5,10 +5,11 @@ import { Transation } from '../../models/transation.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../../models/loginResponse.model';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [SummaryComponent, FormsModule],
+  imports: [SummaryComponent, FormsModule, NgxCurrencyDirective],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css',
 })
@@ -24,12 +25,17 @@ export class UserDashboardComponent {
     )?.data;
   }
 
+  //
+  action = '+';
+
   //login request
   loginResponse: LoginResponse = {
     name: '',
     token: '',
     userId: '',
   };
+
+  teste = 'testeee';
 
   //Page request
   page = 1;
@@ -46,7 +52,10 @@ export class UserDashboardComponent {
   selectedoption: any;
 
   //format date
-  currentDate: Date = new Date('25/03/20');
+  currentDate: any = new Date().toISOString().split('T')[0];
+
+  //patch id transation
+  patchId: string = '';
 
   get createTransation(): Transation {
     return {
@@ -64,7 +73,11 @@ export class UserDashboardComponent {
 
   postTransations() {
     this.transationService.createTransation(this.createTransation).subscribe(
-      (response) => this.getTransations(),
+      (response) => {
+        this.getTransations();
+        this.resetInputs();
+        console.log(this.createTransation.value);
+      },
       (error: any) => console.log(error)
     );
   }
@@ -75,5 +88,43 @@ export class UserDashboardComponent {
       .subscribe((transations) => {
         this.transations = transations || [];
       });
+  }
+
+  deleteTransation(transation: Transation) {
+    this.transationService.deleteTransation(transation.id!).subscribe(
+      (response) => {
+        console.log('Exclusão do item: ' + transation.description);
+        this.getTransations();
+      },
+      (error) => console.log(error)
+    );
+  }
+
+  patchTransation() {
+    this.transationService
+      .patchTransation(this.createTransation, this.patchId!)
+      .subscribe((response) => {
+        this.getTransations();
+        this.resetInputs();
+        this.action = '+';
+      });
+  }
+
+  editButton(transation: Transation) {
+    this.description = transation.description;
+    this.value = transation.value;
+    this.selectedoption = transation.status;
+    this.currentDate = transation.editDate!;
+
+    //change action button value
+    this.action = 'Editar';
+    this.patchId = transation.id!;
+  }
+
+  resetInputs() {
+    this.description = '';
+    this.value = 0;
+    this.selectedoption = '';
+    this.currentDate = new Date().toISOString().split('T')[0];
   }
 }

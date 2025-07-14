@@ -6,4 +6,5 @@ export interface Transation {
   personId: string;
   date?: Date;
   formatedDate?: string;
+  editDate?: string;
 }

@@ -23,4 +23,17 @@ export class TransationService {
       `${this._url}/transation/${personId}/${page}/${limit}`
     );
   }
+
+  deleteTransation(transationId: string) {
+    return this.httpClient.delete<Transation>(
+      `${this._url}/transation/${transationId}`
+    );
+  }
+
+  patchTransation(transation: Transation, transationId: string) {
+    return this.httpClient.patch(
+      `${this._url}/transation/${transationId}`,
+      transation
+    );
+  }
 }

@@ -32,9 +32,7 @@
       font-weight: 600;
     }
 
-    & .values,
-    .values-red,
-    .values-green {
+    & .values {
       background-color: rgba(128, 128, 128, 1);
       padding: 0.5rem;
       margin-top: 0.5rem;
@@ -43,11 +41,11 @@
       border-radius: 0.5rem;
     }
 
-    & .values-green {
+    & .green {
       color: rgba(81, 255, 0, 0.79);
     }
 
-    & .values-red {
+    & .red {
       color: rgba(255, 0, 4, 0.881);
     }
   }

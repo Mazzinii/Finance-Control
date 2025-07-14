@@ -39,7 +39,8 @@ export class SummaryComponent {
   }
 
   balanceCheck() {
-    if (this.balance > 0) this.balanceStatus = 'values-green';
-    else this.balanceStatus = 'values-red';
+    if (this.balance > 0) this.balanceStatus = 'values green';
+    if (this.balance == 0) this.balanceStatus = 'values';
+    if (this.balance < 0) this.balanceStatus = 'values red';
   }
 }

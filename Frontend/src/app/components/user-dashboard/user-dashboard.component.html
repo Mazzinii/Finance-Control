@@ -3,7 +3,9 @@
   <div class="dashboard">
     <h2>
       Extrato de <b>{{ loginResponse.name }}</b>
+      <h2>{{ selectedoption }}</h2>
     </h2>
+
     <form>
       <div>
         <label for="description">Descrição</label>
@@ -18,7 +20,18 @@
       <div>
         <label for="value">Valor</label>
         <br />
-        <input type="number" [(ngModel)]="value" name="value" />
+        <input
+          type="text"
+          currencyMask
+          [options]="{
+            prefix: 'R$ ',
+            thousands: '.',
+            decimal: ',',
+            align: 'left'
+          }"
+          [(ngModel)]="value"
+          name="value"
+        />
       </div>
       <div>
         <label for="status">Status</label>
@@ -36,7 +49,11 @@
       </div>
       <div class="button">
         <br />
-        <input type="submit" (click)="postTransations()" value="+" />
+        @if (action == '+') {
+        <input type="submit" (click)="postTransations()" value="{{ action }}" />
+        }@if (action == 'Editar' ) {
+        <input type="submit" (click)="patchTransation()" value="{{ action }}" />
+        }
       </div>
     </form>
     <div class="scrollable-table">
@@ -47,15 +64,39 @@
             <th>Valor</th>
             <th>Status</th>
             <th>Data</th>
-            <th>Options</th>
+            <th>Editar/Excluir</th>
           </tr>
         </thead>
         @for (transation of transations; track transation) {
         <tr>
           <td>{{ transation.description }}</td>
-          <td>{{ transation.value }}</td>
-          <td>{{ transation.status }}</td>
+          <td>R$ {{ transation.value.toFixed(2) }}</td>
+          @if (transation.status == 'Entrada') {
+          <td>
+            <p class="green">{{ transation.status }}</p>
+          </td>
+          }@if (transation.status == 'Saída') {
+          <td>
+            <p class="red">{{ transation.status }}</p>
+          </td>
+          }
           <td>{{ transation.formatedDate }}</td>
+          <td>
+            <img
+              class="icon first"
+              src="edit.png"
+              alt=""
+              width="25px"
+              (click)="editButton(transation)"
+            />
+            <img
+              class="icon"
+              src="delete.png"
+              alt=""
+              width="25px"
+              (click)="deleteTransation(transation)"
+            />
+          </td>
         </tr>
         }
       </table>
