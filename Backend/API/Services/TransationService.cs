@@ -79,7 +79,7 @@ namespace PersonTransation.Services
                     return TypedResults.BadRequest("Invalid Id");
                 else
                 {
-                    hasTransation.ChangeAttributes(transation.Description, transation.Value, transation.Date);
+                    hasTransation.ChangeAttributes(transation.Description, transation.Status, transation.Value, transation.Date);
                     await context.SaveChangesAsync();
                     return TypedResults.Ok(hasTransation);
                 }
