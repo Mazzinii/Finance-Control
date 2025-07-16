@@ -1,0 +1,16 @@
+<dialog #modal>
+  <div class="modal-title">
+    <img src="delete.png" alt="" width="40px" height="40px" />
+    <h2>Deletar Transação</h2>
+  </div>
+  <p>
+    Tem certeza de que deseja excluir o item
+    <b>{{ transationtoDelete?.description }}</b
+    >?
+  </p>
+  <br />
+  <div class="button">
+    <button (click)="closeModal()">Cancelar</button>
+    <button class="delete" (click)="deleteTransation()">Deletar</button>
+  </div>
+</dialog>

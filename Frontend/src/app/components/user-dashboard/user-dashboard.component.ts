@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SummaryComponent } from '../summary/summary.component';
 import { TransationService } from '../../services/transation.service';
 import { Transation } from '../../models/transation.model';
@@ -6,14 +6,23 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../../models/loginResponse.model';
 import { NgxCurrencyDirective } from 'ngx-currency';
+import { DeleteTransationComponent } from '../modals/delete-transation/delete-transation.component';
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [SummaryComponent, FormsModule, NgxCurrencyDirective],
+  imports: [
+    SummaryComponent,
+    DeleteTransationComponent,
+    FormsModule,
+    NgxCurrencyDirective,
+  ],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css',
 })
 export class UserDashboardComponent {
+  //modal
+  @ViewChild('modal') modal!: DeleteTransationComponent;
+
   constructor(
     private transationService: TransationService,
     private router: Router
@@ -25,7 +34,10 @@ export class UserDashboardComponent {
     )?.data;
   }
 
-  //
+  //delete transation
+  transationtoDelete?: Transation;
+
+  //button action
   action = '+';
 
   //login request
@@ -90,16 +102,6 @@ export class UserDashboardComponent {
       });
   }
 
-  deleteTransation(transation: Transation) {
-    this.transationService.deleteTransation(transation.id!).subscribe(
-      (response) => {
-        console.log('Exclusão do item: ' + transation.description);
-        this.getTransations();
-      },
-      (error) => console.log(error)
-    );
-  }
-
   patchTransation() {
     this.transationService
       .patchTransation(this.createTransation, this.patchId!)
@@ -108,6 +110,16 @@ export class UserDashboardComponent {
         this.resetInputs();
         this.action = '+';
       });
+  }
+
+  deleteTransation(transation: Transation) {
+    this.transationService.deleteTransation(transation.id!).subscribe(
+      (response) => {
+        console.log('Exclusão do item: ' + transation.description);
+        this.getTransations();
+      },
+      (error) => console.log(error)
+    );
   }
 
   editButton(transation: Transation) {
@@ -126,5 +138,10 @@ export class UserDashboardComponent {
     this.value = 0;
     this.selectedoption = '';
     this.currentDate = new Date().toISOString().split('T')[0];
+  }
+
+  openModal(transation: Transation) {
+    this.modal.showModal();
+    this.transationtoDelete = transation;
   }
 }

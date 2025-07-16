@@ -1,11 +1,14 @@
 <div class="main-layout">
   <app-summary [transations]="transations"></app-summary>
+  <app-delete-transation
+    #modal
+    [transationtoDelete]="transationtoDelete"
+    (deletedClick)="deleteTransation(transationtoDelete!)"
+  ></app-delete-transation>
   <div class="dashboard">
     <h2>
       Extrato de <b>{{ loginResponse.name }}</b>
-      <h2>{{ selectedoption }}</h2>
     </h2>
-
     <form>
       <div>
         <label for="description">Descrição</label>
@@ -94,7 +97,7 @@
               src="delete.png"
               alt=""
               width="25px"
-              (click)="deleteTransation(transation)"
+              (click)="openModal(transation)"
             />
           </td>
         </tr>

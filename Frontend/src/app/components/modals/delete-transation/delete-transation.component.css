@@ -1,0 +1,40 @@
+* {
+  margin: revert;
+  padding: revert;
+}
+dialog {
+  border-radius: 1rem;
+  border: 3px solid rgba(128, 128, 128, 1);
+
+  &::backdrop {
+    backdrop-filter: blur(1px);
+  }
+  & .button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    & button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.2rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    & .delete {
+      background-color: rgba(255, 0, 4, 0.881);
+    }
+  }
+
+  & img {
+    padding: 0.4rem;
+    background-color: rgba(255, 0, 4, 0.881);
+    border-radius: 0.5rem;
+  }
+
+  & .modal-title {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+}

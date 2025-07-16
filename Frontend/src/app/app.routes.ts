@@ -3,6 +3,7 @@ import { FormCreateComponent } from './components/login/login.component';
 import { FormRegisterComponent } from './components/register/register.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { SummaryComponent } from './components/summary/summary.component';
+import { DeleteTransationComponent } from './components/modals/delete-transation/delete-transation.component';
 
 export const routes: Routes = [
   {
@@ -20,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'summary',
     component: SummaryComponent,
+  },
+  {
+    path: 'modal',
+    component: DeleteTransationComponent,
   },
 ];
