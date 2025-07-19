@@ -62,7 +62,7 @@
     }
   }
 
-  input {
+  & input {
     width: 350px;
     padding: 0.3rem 0 0.3rem 0.3rem;
     font-size: 18px;

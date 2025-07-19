@@ -4,7 +4,7 @@ export interface Transation {
   status: string;
   value: number;
   personId: string;
-  date?: Date;
+  date: Date;
   formatedDate?: string;
   editDate?: string;
 }

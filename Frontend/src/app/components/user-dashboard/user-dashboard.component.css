@@ -53,6 +53,7 @@
 
   & .table {
     margin: 0 3rem;
+    border-collapse: collapse;
 
     & .red {
       background-color: rgba(255, 0, 4, 0.881);
@@ -67,18 +68,21 @@
       border-radius: 0.5rem;
       padding: 0.3rem 0;
     }
+
+    & .date {
+      cursor: pointer;
+    }
   }
 
   & .table,
   th,
   td {
-    border: 1px solid grey;
-    border-collapse: collapse;
     text-align: center;
     overflow-y: auto;
 
     & td {
-      padding: 0.5rem;
+      padding: 0.6rem;
+      border-bottom: 1px solid grey;
     }
   }
 
@@ -88,10 +92,23 @@
     position: sticky;
     top: 0;
     z-index: 1;
+    overflow: hidden;
   }
 
   & .table tr:nth-of-type(even) {
     background-color: rgba(255, 255, 255, 0.151);
+  }
+
+  & .table tr:last-of-type {
+    border-bottom: 2px solid #ff735c;
+  }
+
+  & .table th:last-of-type {
+    border-top-right-radius: 0.5rem;
+  }
+
+  & .table th:first-of-type {
+    border-top-left-radius: 0.5rem;
   }
 
   & .icon {

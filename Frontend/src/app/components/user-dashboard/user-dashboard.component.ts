@@ -53,6 +53,9 @@ export class UserDashboardComponent {
   page = 1;
   limit = 30;
 
+  //Order date
+  orderDate: string = '▾';
+
   //Transation data
   transations: Transation[] = [];
   description = '';
@@ -83,12 +86,13 @@ export class UserDashboardComponent {
     this.getTransations();
   }
 
+  //check inputs before post
+
   postTransations() {
     this.transationService.createTransation(this.createTransation).subscribe(
       (response) => {
         this.getTransations();
         this.resetInputs();
-        console.log(this.createTransation.value);
       },
       (error: any) => console.log(error)
     );
@@ -98,7 +102,8 @@ export class UserDashboardComponent {
     this.transationService
       .getTransation(this.loginResponse.userId, this.page, this.limit)
       .subscribe((transations) => {
-        this.transations = transations || [];
+        this.transations = this.transationAscDate(transations) || [];
+        console.log(transations[0].date);
       });
   }
 
@@ -143,5 +148,21 @@ export class UserDashboardComponent {
   openModal(transation: Transation) {
     this.modal.showModal();
     this.transationtoDelete = transation;
+  }
+
+  transationAscDate(transations: Transation[]) {
+    transations.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    if (this.orderDate == '▵') this.orderDate = '▾';
+    return transations;
+  }
+
+  transationDescDate(transations: Transation[]) {
+    this.orderDate = '▵';
+    transations.sort(
+      (a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime()
+    );
+    return transations;
   }
 }
