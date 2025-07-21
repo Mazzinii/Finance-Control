@@ -29,18 +29,33 @@ export class FormRegisterComponent {
     };
   }
 
+  postStatus = true;
+
   constructor(private userService: UserService) {}
 
   crateUser() {
-    this.userService.createUser(this.userRegister).subscribe(
-      (response) => console.log(response),
-      (error: any) =>
-        console.log(
-          error,
-          ((this.erroMessage = 'Este e-mail já está vinculado a uma conta'),
-          (this.class = 'error'))
-        ),
-      () => ((this.message = 'Cadastro Realizado'), (this.class = 'message'))
-    );
+    this.checkPassword();
+    if (this.postStatus == false) {
+      this.postStatus = true;
+    } else {
+      this.userService.createUser(this.userRegister).subscribe(
+        (response) => console.log(response),
+        (error: any) =>
+          console.log(
+            error,
+            ((this.erroMessage = 'Este e-mail já está vinculado a uma conta'),
+            (this.class = 'error'))
+          ),
+        () => ((this.message = 'Cadastro Realizado'), (this.class = 'message'))
+      );
+    }
+  }
+
+  checkPassword() {
+    if (this.password != this.cfPassword) {
+      this.erroMessage = 'As senhas devem ser iguais!';
+      this.class = 'error';
+      this.postStatus = false;
+    }
   }
 }

@@ -40,14 +40,15 @@ export class UserDashboardComponent {
   //button action
   action = '+';
 
+  //action message
+  actionMessage: string = '';
+
   //login request
   loginResponse: LoginResponse = {
     name: '',
     token: '',
     userId: '',
   };
-
-  teste = 'testeee';
 
   //Page request
   page = 1;
@@ -72,6 +73,9 @@ export class UserDashboardComponent {
   //patch id transation
   patchId: string = '';
 
+  //checkInputs status
+  inputStatus = 'true';
+
   get createTransation(): Transation {
     return {
       description: this.description,
@@ -86,16 +90,35 @@ export class UserDashboardComponent {
     this.getTransations();
   }
 
-  //check inputs before post
+  //check inputs before post/patch
+  async checkInputs() {
+    if (
+      this.value == 0 ||
+      this.description == '' ||
+      this.selectedoption == ''
+    ) {
+      this.inputStatus = 'false';
+      this.actionMessage = 'Todos os campos são obrigatórios!';
+      await this.delay(3000);
+    }
+    this.inputStatus = 'true';
+    this.actionMessage = '';
+  }
 
   postTransations() {
-    this.transationService.createTransation(this.createTransation).subscribe(
-      (response) => {
-        this.getTransations();
-        this.resetInputs();
-      },
-      (error: any) => console.log(error)
-    );
+    this.checkInputs();
+    if (this.inputStatus == 'false') {
+    } else {
+      this.transationService.createTransation(this.createTransation).subscribe(
+        (response) => {
+          this.getTransations();
+          this.resetInputs();
+          this.showActionMessage('post');
+          console.log(this.createTransation);
+        },
+        (error: any) => console.log(error)
+      );
+    }
   }
 
   getTransations() {
@@ -108,13 +131,18 @@ export class UserDashboardComponent {
   }
 
   patchTransation() {
-    this.transationService
-      .patchTransation(this.createTransation, this.patchId!)
-      .subscribe((response) => {
-        this.getTransations();
-        this.resetInputs();
-        this.action = '+';
-      });
+    this.checkInputs();
+    if (this.inputStatus == 'false') {
+    } else {
+      this.transationService
+        .patchTransation(this.createTransation, this.patchId!)
+        .subscribe((response) => {
+          this.getTransations();
+          this.resetInputs();
+          this.showActionMessage('patch');
+          this.action = '+';
+        });
+    }
   }
 
   deleteTransation(transation: Transation) {
@@ -122,6 +150,7 @@ export class UserDashboardComponent {
       (response) => {
         console.log('Exclusão do item: ' + transation.description);
         this.getTransations();
+        this.showActionMessage('delete');
       },
       (error) => console.log(error)
     );
@@ -164,5 +193,27 @@ export class UserDashboardComponent {
       (a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime()
     );
     return transations;
+  }
+
+  async showActionMessage(route: string) {
+    if (route == 'post') {
+      this.actionMessage = 'Transação adicionada com sucesso!';
+      await this.delay(3000);
+    }
+    if (route == 'patch') {
+      this.actionMessage = 'Transação atualizada com sucesso!';
+      await this.delay(3000);
+    }
+    if (route == 'delete') {
+      this.actionMessage = 'Transação deletada com sucesso!';
+      await this.delay(3000);
+    }
+
+    this.actionMessage = '';
+  }
+
+  //function for timeout
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
