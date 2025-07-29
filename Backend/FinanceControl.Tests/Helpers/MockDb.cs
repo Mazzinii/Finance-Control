@@ -4,16 +4,16 @@ using Person.Data;
 
 namespace FinanceControl.Tests.Helpers
 {
-    public class MockDb : IDbContextFactory<PersonTransationContext>
+    public class MockDb : IDbContextFactory<PersonTransactionContext>
     {
 
-        public PersonTransationContext CreateDbContext()
+        public PersonTransactionContext CreateDbContext()
         {
-            var options = new DbContextOptionsBuilder<PersonTransationContext>()
+            var options = new DbContextOptionsBuilder<PersonTransactionContext>()
                 .UseInMemoryDatabase($"InMemoryTestDb - {DateTime.Now.ToFileTimeUtc()}")
                 .Options;
 
-            return new PersonTransationContext(options);
+            return new PersonTransactionContext(options);
  
         }
     }

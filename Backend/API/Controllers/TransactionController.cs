@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Person.Data;
 using Person.Models.Requests;
 using PersonTransation.Models.Entities;
@@ -8,24 +9,26 @@ namespace PersonTransation.Controllers
 {
     [Route("api/v1/transation")]
     [ApiController]
-    public class TransationController : ControllerBase
+    public class TransactionController : ControllerBase
     {
-        private readonly TransationService _service;
-        private readonly PersonTransationContext _context;
+        private readonly TransactionService _service;
+        private readonly PersonTransactionContext _context;
 
-        public TransationController(TransationService service, PersonTransationContext context)
+        public TransactionController(TransactionService service, PersonTransactionContext context)
         {
             _service = service;
             _context = context;
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IResult> CreateTransation(TransationRequest req)
+        public async Task<IResult> CreateTransation(TransactionRequest req)
         {
-            var transation = new TransationModel(req.Description, req.Status, req.Value, req.Date, req.PersonId);
+            var transation = new TransactionModel(req.Description, req.Status, req.Value, req.Date, req.PersonId);
             return await _service.Create(transation, _context);
         }
 
+        [Authorize]
         [HttpGet("{personId:guid}/{page:int}/{limit:int}")]
         public async Task<IResult> GetTransation(Guid personId, int page, int limit)
         {
@@ -36,20 +39,22 @@ namespace PersonTransation.Controllers
         public async Task<IResult> GetTransationId(string description, string status, int value, DateTime date, Guid personId)
         {
 
-            var transation = new TransationModel(description, status, value, date, personId);
+            var transation = new TransactionModel(description, status, value, date, personId);
 
             return await _service.GetId(transation, _context);
         }
 
+        [Authorize]
         [HttpPatch("{transationId:guid}")]
-        public async Task<IResult> PatchTransation(Guid transationId, TransationRequest oldRequest)
+        public async Task<IResult> PatchTransation(Guid transationId, TransactionRequest oldRequest)
         {
-            var patchedTransation = new TransationModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date);
+            var patchedTransation = new TransactionModel(oldRequest.Description, oldRequest.Status, oldRequest.Value, oldRequest.Date);
 
 
             return await _service.Patch(patchedTransation, _context, transationId);
         }
 
+        [Authorize]
         [HttpDelete("{transationId:guid}")]
         public async Task<IResult> deleteTransation(Guid transationId)
         {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PersonTransation.Models.Entities
 {
-    public class TransationModel
+    public class TransactionModel
     {
         [Key]
         public Guid Id { get; init; }
@@ -16,7 +16,7 @@ namespace PersonTransation.Models.Entities
         public UserModel User { get; set; } 
 
 
-        public TransationModel(string description, string status, decimal value, DateTime date, Guid userId)
+        public TransactionModel(string description, string status, decimal value, DateTime date, Guid userId)
         {
             Id = Guid.NewGuid();
             Description = description;
@@ -26,7 +26,7 @@ namespace PersonTransation.Models.Entities
             UserId = userId;
         }
 
-        public TransationModel(string description, string status, decimal value, DateTime date)
+        public TransactionModel(string description, string status, decimal value, DateTime date)
         {
             Id = Guid.NewGuid();
             Description = description;

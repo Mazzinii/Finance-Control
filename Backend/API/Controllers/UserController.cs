@@ -12,9 +12,9 @@ namespace PersonTransation.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _service;
-        private readonly PersonTransationContext _context;
+        private readonly PersonTransactionContext _context;
 
-        public UserController(UserService service, PersonTransationContext context)
+        public UserController(UserService service, PersonTransactionContext context)
         {
             _service = service;
             _context = context;

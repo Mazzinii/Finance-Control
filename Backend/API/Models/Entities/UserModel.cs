@@ -10,7 +10,7 @@ namespace PersonTransation.Models.Entities
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
-        public List<TransationModel> Transations { get; set; } = new List<TransationModel>();
+        public List<TransactionModel> Transations { get; set; } = new List<TransactionModel>();
 
         private readonly PasswordHasherService passwordHash = new PasswordHasherService();
 

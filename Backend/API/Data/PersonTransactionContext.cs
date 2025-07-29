@@ -4,21 +4,21 @@ using PersonTransation.Models.Entities;
 
 namespace Person.Data
 {
-    public class PersonTransationContext : DbContext
+    public class PersonTransactionContext : DbContext
     {
         public  DbSet<UserModel> Users { get; set; }
-        public  DbSet<TransationModel> Transations { get; set; }
+        public  DbSet<TransactionModel> Transations { get; set; }
 
         private readonly IConfiguration _configuration;
 
-        public PersonTransationContext() { }
+        public PersonTransactionContext() { }
 
-        public PersonTransationContext(IConfiguration configuration)
+        public PersonTransactionContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public PersonTransationContext(DbContextOptions<PersonTransationContext> options) : base(options) { }
+        public PersonTransactionContext(DbContextOptions<PersonTransactionContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

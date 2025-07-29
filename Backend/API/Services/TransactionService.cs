@@ -6,17 +6,17 @@ using PersonTransation.Models.Entities;
 
 namespace PersonTransation.Services
 {
-    public class TransationService : IModel<TransationModel>
+    public class TransactionService : IModel<TransactionModel>
     {
 
         private readonly IMapper _mapper;
 
-        public TransationService(IMapper mapper)
+        public TransactionService(IMapper mapper)
         {
             _mapper = mapper;
         }
 
-        public async Task<IResult> Create(TransationModel transation, PersonTransationContext context)
+        public async Task<IResult> Create(TransactionModel transation, PersonTransactionContext context)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace PersonTransation.Services
                 return TypedResults.Problem($"Error: {ex.Message}");
             }
         }
-        public async Task<IResult> Get(PersonTransationContext context, Guid personId, int page, int limit)
+        public async Task<IResult> Get(PersonTransactionContext context, Guid personId, int page, int limit)
         {
             try
             { 
@@ -37,7 +37,7 @@ namespace PersonTransation.Services
 
                 var pagination = transation.Skip((page - 1) * limit).Take(limit).ToList();
 
-                var paginationView = _mapper.Map<List<TransationDTO>>(pagination);
+                var paginationView = _mapper.Map<List<TransactionDTO>>(pagination);
 
                 return TypedResults.Ok(paginationView);
             }
@@ -47,7 +47,7 @@ namespace PersonTransation.Services
             }
             
         }
-        public async Task<IResult> GetId(TransationModel transation, PersonTransationContext context)
+        public async Task<IResult> GetId(TransactionModel transation, PersonTransactionContext context)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace PersonTransation.Services
             }
 
         }
-        public async Task<IResult> Patch(TransationModel transation, PersonTransationContext context,Guid id)
+        public async Task<IResult> Patch(TransactionModel transation, PersonTransactionContext context,Guid id)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace PersonTransation.Services
             }
         }
 
-        public async Task<IResult> Delete(PersonTransationContext context, Guid id)
+        public async Task<IResult> Delete(PersonTransactionContext context, Guid id)
         {
             try
             {

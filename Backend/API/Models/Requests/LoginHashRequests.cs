@@ -8,11 +8,11 @@ namespace PersonTransation.Models.Requests
 {
     public class LoginHashRequests
     {
-        private readonly PersonTransationContext _personContext;
+        private readonly PersonTransactionContext _personContext;
         private readonly IPasswordHasher _passwordHasher;
         private readonly TokenService _tokenService;
 
-        public LoginHashRequests(PersonTransationContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
+        public LoginHashRequests(PersonTransactionContext personContext, IPasswordHasher passwordHasher, TokenService tokenService)
         {
             _personContext = personContext;
             _passwordHasher = passwordHasher;

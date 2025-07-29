@@ -11,7 +11,7 @@ using Person.Data;
 
 namespace PersonTransation.Data.Migrations
 {
-    [DbContext(typeof(PersonTransationContext))]
+    [DbContext(typeof(PersonTransactionContext))]
     [Migration("20250714230115_TransationDecimalUpdate")]
     partial class TransationDecimalUpdate
     {

@@ -1,6 +1,6 @@
 ﻿namespace PersonTransation.Models.DTOs
 {
-    public class TransationDTO
+    public class TransactionDTO
     {
         public Guid Id { get; set; }
         public string Description { get;  set; }

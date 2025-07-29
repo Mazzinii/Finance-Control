@@ -11,7 +11,7 @@ using Person.Data;
 
 namespace PersonTransation.Data.Migrations
 {
-    [DbContext(typeof(PersonTransationContext))]
+    [DbContext(typeof(PersonTransactionContext))]
     [Migration("20250623180136_Initial")]
     partial class Initial
     {

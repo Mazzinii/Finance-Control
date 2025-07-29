@@ -6,22 +6,22 @@ namespace FinanceControl.Tests.Service
 {
 
 
-    public class TransationServiceTest
+    public class TransactionServiceTest
     {
-        private readonly TransationService _service;
+        private readonly TransactionService _service;
         private readonly Mock<IMapper> _mapper;
         private readonly Faker _faker = new Faker("pt_BR");
         private readonly Faker _faker1 = new Faker("pt_BR");
 
-        public TransationServiceTest()
+        public TransactionServiceTest()
         {
             _mapper = new Mock<IMapper>();
 
             //configurando o IMapper
 
-            _mapper.Setup(x => x.Map<List<TransationDTO>>(It.IsAny<List<TransationModel>>()))
-                    .Returns((List<TransationModel> sourceList) =>
-                    sourceList.Select(transation => new TransationDTO
+            _mapper.Setup(x => x.Map<List<TransactionDTO>>(It.IsAny<List<TransactionModel>>()))
+                    .Returns((List<TransactionModel> sourceList) =>
+                    sourceList.Select(transation => new TransactionDTO
                     {
                         Description = transation.Description,
                         Status = transation.Status,
@@ -30,7 +30,7 @@ namespace FinanceControl.Tests.Service
 
                     }).ToList());
 
-            _service = new TransationService(_mapper.Object);
+            _service = new TransactionService(_mapper.Object);
         }
 
 
@@ -54,7 +54,7 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
+            var transation = new TransactionModel(description, status, value, date, personId);
             await _service.Create(transation, context);
 
 
@@ -85,7 +85,7 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
+            var transation = new TransactionModel(description, status, value, date, personId);
             await _service.Create(transation, context);
             var id = await _service.GetId(transation, context);
 
@@ -111,7 +111,7 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
+            var transation = new TransactionModel(description, status, value, date, personId);
             var id = await _service.GetId(transation, context);
 
             //Assert
@@ -155,8 +155,8 @@ namespace FinanceControl.Tests.Service
             //Act
             var user = new UserModel(name, email, password);
             var user1 = new UserModel(name1, email1, password1);
-            var transation = new TransationModel(description, status, value, date, user.UserId);
-            var transation1 = new TransationModel(description1, status1, value1, date1, user1.UserId);
+            var transation = new TransactionModel(description, status, value, date, user.UserId);
+            var transation1 = new TransactionModel(description1, status1, value1, date1, user1.UserId);
             await _service.Create(transation, context);
             await _service.Create(transation1, context);
             var result = await _service.Get(context,user.UserId, 1, 1);
@@ -166,7 +166,7 @@ namespace FinanceControl.Tests.Service
             Assert.NotNull(result);
 
             //Desserializa o conteudo do result
-            var okResult = (Ok<List<TransationDTO>>)result;
+            var okResult = (Ok<List<TransactionDTO>>)result;
             var transations = okResult.Value;
 
             Assert.NotNull(transations);
@@ -193,8 +193,8 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
-            var newTransation = new TransationModel(newDescription, newStatus, newValue, newDate, newPersonId);
+            var transation = new TransactionModel(description, status, value, date, personId);
+            var newTransation = new TransactionModel(newDescription, newStatus, newValue, newDate, newPersonId);
             await _service.Create(transation, context);
             await _service.Patch(newTransation,context,transation.Id);
 
@@ -228,8 +228,8 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
-            var newTransation = new TransationModel(newDescription, newStatus, newValue, newDate, newPersonId);
+            var transation = new TransactionModel(description, status, value, date, personId);
+            var newTransation = new TransactionModel(newDescription, newStatus, newValue, newDate, newPersonId);
             await _service.Create(transation, context);
             var wrongId = await _service.Patch(newTransation, context, newTransation.Id);
 
@@ -255,7 +255,7 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description,status, value, date, personId);
+            var transation = new TransactionModel(description,status, value, date, personId);
             await _service.Create(transation,context);
             await _service.Delete(context, transation.Id);
 
@@ -279,7 +279,7 @@ namespace FinanceControl.Tests.Service
             var context = new MockDb().CreateDbContext();
 
             //Act
-            var transation = new TransationModel(description, status, value, date, personId);
+            var transation = new TransactionModel(description, status, value, date, personId);
             await _service.Create(transation, context);
             var invalidId = await _service.Delete(context, newTransationGuid);
 

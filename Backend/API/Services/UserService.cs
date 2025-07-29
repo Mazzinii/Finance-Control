@@ -16,7 +16,7 @@ namespace PersonTransation.Services
             _mapper = mapper;
         }
 
-        public async Task<IResult> Create(UserModel person, PersonTransationContext context)
+        public async Task<IResult> Create(UserModel person, PersonTransactionContext context)
         {
             //validando entrada
             if(person == null || context == null)
@@ -57,14 +57,14 @@ namespace PersonTransation.Services
               
         }
 
-        public async Task<bool> CheckEmail(UserModel person, PersonTransationContext context)
+        public async Task<bool> CheckEmail(UserModel person, PersonTransactionContext context)
         {
             return await context.Users.AnyAsync(x => x.Email == person.Email);
 
         }
 
 
-        public async Task<IResult> Get(PersonTransationContext context, int page, int limit)
+        public async Task<IResult> Get(PersonTransactionContext context, int page, int limit)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace PersonTransation.Services
         }
 
          
-        public async Task<IResult> Patch(UserModel person, PersonTransationContext context, Guid id)
+        public async Task<IResult> Patch(UserModel person, PersonTransactionContext context, Guid id)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace PersonTransation.Services
             }
         }
 
-        public async Task<IResult> Delete(PersonTransationContext context, Guid id)
+        public async Task<IResult> Delete(PersonTransactionContext context, Guid id)
         {
             try
             {

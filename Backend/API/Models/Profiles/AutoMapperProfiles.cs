@@ -12,7 +12,7 @@ namespace PersonTransation.Models.Profiles
             CreateMap<UserModel, UserDTO>();
 
             //Transation 
-            CreateMap<TransationModel, TransationDTO>();
+            CreateMap<TransactionModel, TransactionDTO>();
             
         }
     }
