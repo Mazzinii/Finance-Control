@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { LoginResponse } from '../../models/loginResponse.model';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { DeleteTransationComponent } from '../modals/delete-transation/delete-transation.component';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -50,6 +51,9 @@ export class UserDashboardComponent {
     userId: '',
   };
 
+  //token
+  tokenObj: HttpHeaders = new HttpHeaders();
+
   //Page request
   page = 1;
   limit = 30;
@@ -87,7 +91,16 @@ export class UserDashboardComponent {
   }
 
   ngOnInit() {
+    this.getToken();
     this.getTransations();
+  }
+
+  //get token
+  getToken() {
+    this.tokenObj = new HttpHeaders().set(
+      'Authorization',
+      'bearer ' + this.loginResponse.token
+    );
   }
 
   //check inputs before post/patch
@@ -109,21 +122,28 @@ export class UserDashboardComponent {
     this.checkInputs();
     if (this.inputStatus == 'false') {
     } else {
-      this.transationService.createTransation(this.createTransation).subscribe(
-        (response) => {
-          this.getTransations();
-          this.resetInputs();
-          this.showActionMessage('post');
-          console.log(this.createTransation);
-        },
-        (error: any) => console.log(error)
-      );
+      this.transationService
+        .createTransation(this.createTransation, this.tokenObj)
+        .subscribe(
+          (response) => {
+            this.getTransations();
+            this.resetInputs();
+            this.showActionMessage('post');
+            console.log(this.createTransation);
+          },
+          (error: any) => console.log(error)
+        );
     }
   }
 
   getTransations() {
     this.transationService
-      .getTransation(this.loginResponse.userId, this.page, this.limit)
+      .getTransation(
+        this.loginResponse.userId,
+        this.page,
+        this.limit,
+        this.tokenObj
+      )
       .subscribe((transations) => {
         this.transations = this.transationAscDate(transations) || [];
         console.log(transations[0].date);
@@ -135,7 +155,7 @@ export class UserDashboardComponent {
     if (this.inputStatus == 'false') {
     } else {
       this.transationService
-        .patchTransation(this.createTransation, this.patchId!)
+        .patchTransation(this.createTransation, this.patchId!, this.tokenObj)
         .subscribe((response) => {
           this.getTransations();
           this.resetInputs();
@@ -146,14 +166,16 @@ export class UserDashboardComponent {
   }
 
   deleteTransation(transation: Transation) {
-    this.transationService.deleteTransation(transation.id!).subscribe(
-      (response) => {
-        console.log('Exclusão do item: ' + transation.description);
-        this.getTransations();
-        this.showActionMessage('delete');
-      },
-      (error) => console.log(error)
-    );
+    this.transationService
+      .deleteTransation(transation.id!, this.tokenObj)
+      .subscribe(
+        (response) => {
+          console.log('Exclusão do item: ' + transation.description);
+          this.getTransations();
+          this.showActionMessage('delete');
+        },
+        (error) => console.log(error)
+      );
   }
 
   editButton(transation: Transation) {
