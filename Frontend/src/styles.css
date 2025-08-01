@@ -5,11 +5,23 @@
   color-scheme: dark;
 
   h1 {
+    font-size: 3.815rem;
     color: #ff735c;
   }
   h2 {
-    font-size: 20px;
-    font-weight: 100;
+    font-size: 3.052rem;
+  }
+  h3 {
+    font-size: 2.441rem;
+  }
+  h4 {
+    font-size: 1.953rem;
+  }
+  h5 {
+    font-size: 1.563rem;
+  }
+  h6 {
+    font-size: 1.25rem;
   }
 
   a {
@@ -18,21 +30,26 @@
   }
 }
 
+.effects {
+  cursor: pointer;
+  border: none;
+  box-shadow: 4px 4px 5px 0px rgba(128, 128, 128, 0.75);
+  -webkit-box-shadow: 4px 4px 5px 0px rgba(128, 128, 128, 0.75);
+  -moz-box-shadow: 4px 4px 5px 0px rgba(128, 128, 128, 0.75);
+}
+
 .main-layout {
   display: flex;
 }
 
 .form-layout {
   width: 50vw;
-  height: 100vh;
 }
 
 .title {
   padding-top: 6rem;
   text-align: center;
   h1 {
-    font-size: 54px;
-
     font-weight: bold;
     padding-bottom: 1rem;
   }
@@ -43,10 +60,11 @@
   padding-top: 4rem;
   margin: 0 auto;
   width: 350px;
+  height: 50vh;
 
-  h1 {
-    font-size: 40px;
+  h3 {
     padding-bottom: 2rem;
+    color: #ff735c;
   }
 
   form {
@@ -65,7 +83,7 @@
   & input {
     width: 350px;
     padding: 0.3rem 0 0.3rem 0.3rem;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .error {
@@ -93,9 +111,7 @@
       color: white;
       font-size: 18px;
       font-weight: 600;
-      border-radius: 1rem;
-      cursor: pointer;
-      border: none;
+      border-radius: 0.5rem;
     }
   }
 }

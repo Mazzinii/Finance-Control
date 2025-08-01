@@ -1,22 +1,22 @@
 <div class="summarylayout">
   <div class="summary">
-    <h1 class="summarytitle">Resumo</h1>
+    <h2 class="summarytitle">Resumo</h2>
     <div class="summarycontainer">
-      <h1 class="labels">Entrada</h1>
+      <h4 class="labels">Entrada</h4>
       <div class="values">
-        <h2>R$ {{ entry.toFixed(2) }}</h2>
+        <h6>R$ {{ entry.toFixed(2) }}</h6>
       </div>
     </div>
     <div class="summarycontainer">
-      <h1 class="labels">Saída</h1>
+      <h4 class="labels">Saída</h4>
       <div class="values">
-        <h2>R$ {{ exit.toFixed(2) }}</h2>
+        <h6>R$ {{ exit.toFixed(2) }}</h6>
       </div>
     </div>
     <div class="summarycontainer">
-      <h1 class="labels">Saldo</h1>
+      <h4 class="labels">Saldo</h4>
       <div class="{{ balanceStatus }}">
-        <h2>R$ {{ balance.toFixed(2) }}</h2>
+        <h6>R$ {{ balance.toFixed(2) }}</h6>
       </div>
     </div>
   </div>

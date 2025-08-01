@@ -1,1 +1,8 @@
-
+img {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-right: 3px #ff735c solid;
+  box-shadow: 7px 2px 8px -4px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 7px 2px 8px -4px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 7px 2px 8px -4px rgba(0, 0, 0, 0.4);
+}

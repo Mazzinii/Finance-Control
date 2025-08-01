@@ -238,4 +238,10 @@ export class UserDashboardComponent {
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+
+  //exit
+  logOut() {
+    this.tokenObj = new HttpHeaders();
+    this.router.navigate(['/home']);
+  }
 }

@@ -3,7 +3,7 @@
   <div class="form-layout">
     <app-header></app-header>
     <div class="form">
-      <h1>Login</h1>
+      <h3>Login</h3>
       <form>
         <div>
           <label for="email">Email</label>
@@ -29,15 +29,15 @@
           <p>{{ erroMessage }}</p>
         </div>
         <div class="button">
-          <input (click)="login()" type="submit" />
+          <input class="effects" (click)="login()" type="submit" />
         </div>
       </form>
     </div>
     <footer>
-      <h2>
+      <h6>
         Não possui uma conta?
         <a routerLink="/register">Registre-se</a>
-      </h2>
+      </h6>
     </footer>
   </div>
 </div>

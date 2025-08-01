@@ -6,9 +6,12 @@
     (deletedClick)="deleteTransation(transationtoDelete!)"
   ></app-delete-transation>
   <div class="dashboard">
-    <h2>
-      Extrato de <b>{{ loginResponse.name }}</b>
-    </h2>
+    <div class="dashboard-tittle">
+      <h6 class="user">
+        Extrato de <b>{{ loginResponse.name }}</b>
+      </h6>
+      <button (click)="logOut()"><p>Sair</p></button>
+    </div>
     <form>
       <div>
         <label for="description">Descrição</label>
