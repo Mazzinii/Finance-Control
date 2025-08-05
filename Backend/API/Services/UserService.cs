@@ -68,9 +68,9 @@ namespace PersonTransation.Services
         {
             try
             {
-                var person = await context.Users.ToListAsync();
+                var person = context.Users.AsQueryable();
 
-                var pagination = person.Skip((page - 1) * limit).Take(limit).ToList();
+                var pagination = await person.Skip((page - 1) * limit).Take(limit).ToListAsync();
 
                 
                 var paginationView = _mapper.Map<List<UserDTO>>(pagination);

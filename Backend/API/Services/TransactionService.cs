@@ -33,9 +33,9 @@ namespace PersonTransation.Services
         {
             try
             { 
-                var transation =  await context.Transations.Where(x => x.UserId == personId).ToListAsync();
+                var transation =   context.Transations.Where(x => x.UserId == personId).AsQueryable();
 
-                var pagination = transation.Skip((page - 1) * limit).Take(limit).ToList();
+                var pagination = await transation.Skip((page - 1) * limit).Take(limit).ToListAsync();
 
                 var paginationView = _mapper.Map<List<TransactionDTO>>(pagination);
 
