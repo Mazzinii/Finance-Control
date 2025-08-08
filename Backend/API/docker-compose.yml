@@ -1,0 +1,55 @@
+﻿services:
+    # Escope da API
+    api: 
+        # Nome do container
+        container_name: person-transaction
+        build:
+            # Nome do dockerfile da API
+            dockerfile: Dockerfile
+            # Caminho do dockerfile
+            context: .
+        ports:
+            # Porta local:porta do container
+            - 7281:8080
+        # Variaveis de ambiente     
+        environment:
+              # Usar swagger  
+            - ASPNETCORE_ENVIRONMENT=Development
+              # Chave para criptografia  
+            - Key__Jwt="k9Lm2nQp4rT7vXw8yZ1aB3cD5eF6gH8jJ9lK0oP1iU2sV3bN4tM5xW6qY7zA"
+              # ConnectionString para o SQLServer   
+            - ConnectionStrings__DefaultConnection=Server=sql;Database=FinanceControl;User Id=sa;Password=FinanceControl@2025;TrustServerCertificate=True;"
+        # Definindo dependecia (banco de dados deve ser iniciado primeiro que a api)     
+        depends_on: 
+            - "financecontrol-api-sql"
+        # Adicionando network 
+        networks:
+            financecontrol-networks:
+    
+    # Escopo do SQLServer
+    financecontrol-api-sql:
+        # Imagem do SQLServer
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+            # Aceitando termos de licença
+            - "ACCEPT_EULA=Y"
+            # Definindo senha do usuario sa
+            - "MSSQL_SA_PASSWORD=FinanceControl@2025"
+        # Definindo o uso do volume
+        volumes:
+            - "financecontrol-api-mssql-volume:/var/opt/mssql"
+        # Adicionando a network
+        networks:
+            financecontrol-networks:
+                # definindo aeplido
+                aliases:
+                    - "sql"
+
+# Volume para persistencia dos dados      
+volumes:
+    financecontrol-api-mssql-volume:
+
+# Network para rodar as imagens            
+networks:
+  financecontrol-networks:
+    driver: bridge
