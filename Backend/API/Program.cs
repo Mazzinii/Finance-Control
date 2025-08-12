@@ -6,6 +6,7 @@ using Person.Extensions;
 using PersonTransation.Models.Requests;
 using Person.Services;
 using PersonTransation.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,10 +60,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseCors("MyPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// Apply Migrations in docker
+var applyMigration = builder.Configuration.GetValue<bool>("APPLY_MIGRATIONS");
+
+if (applyMigration)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<PersonTransactionContext>();
+        await dbContext.Database.MigrateAsync();
+    }
+}
 app.Run();
 

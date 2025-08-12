@@ -8,10 +8,10 @@ using Person.Data;
 
 #nullable disable
 
-namespace PersonTransation.Data.Migrations
+namespace PersonTransaction.Data.Migration
 {
     [DbContext(typeof(PersonTransactionContext))]
-    partial class PersonTransationContextModelSnapshot : ModelSnapshot
+    partial class PersonTransactionContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,13 +22,13 @@ namespace PersonTransation.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PersonTransation.Models.Entities.TransationModel", b =>
+            modelBuilder.Entity("PersonTransation.Models.Entities.TransactionModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -75,7 +75,7 @@ namespace PersonTransation.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PersonTransation.Models.Entities.TransationModel", b =>
+            modelBuilder.Entity("PersonTransation.Models.Entities.TransactionModel", b =>
                 {
                     b.HasOne("PersonTransation.Models.Entities.UserModel", "User")
                         .WithMany("Transations")

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PersonTransation.Data.Migrations
+namespace PersonTransaction.Data.Migration
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,25 +32,25 @@ namespace PersonTransation.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    User = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserModelUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transations_Users_UserModelUserId",
-                        column: x => x.UserModelUserId,
+                        name: "FK_Transations_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transations_UserModelUserId",
+                name: "IX_Transations_UserId",
                 table: "Transations",
-                column: "UserModelUserId");
+                column: "UserId");
         }
 
         /// <inheritdoc />
