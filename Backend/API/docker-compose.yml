@@ -47,7 +47,20 @@
                     - "sql"
         ports:
             - 1433:1433
+    
+    # Escopo do Frontend
+    frontend:
+        build:
+            dockerfile: Dockerfile
+            context: C:\Users\lmazz\Downloads\CodeGit\Finance-Control\Frontend
+        ports:
+        - 4200:4200
+        depends_on:
+            -  "api"
+        networks:
+            - "financecontrol-networks"
 
+        
 
 # Volume para persistencia dos dados      
 volumes:
