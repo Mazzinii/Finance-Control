@@ -1,8 +1,10 @@
 .summarylayout {
   display: flex;
+  flex-direction: column;
   width: 50vw;
   height: 100vh;
   justify-content: center;
+  align-items: center;
 
   .summary {
     display: flex;
@@ -10,7 +12,6 @@
     align-items: center;
     background-color: #363636;
     border-radius: 1rem;
-    margin: auto 0;
     padding: 2rem 0 3rem 0;
     gap: 3rem;
     width: 500px;
@@ -47,5 +48,25 @@
     & .red {
       color: rgba(255, 0, 4, 0.881);
     }
+  }
+}
+
+.scroll {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: 0.7rem;
+  bottom: 150px;
+
+  button {
+    width: 12px;
+    height: 12px;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .selected {
+    background-color: #ff735c;
+    scale: 1.1;
   }
 }

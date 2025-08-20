@@ -20,6 +20,9 @@ export class SummaryComponent {
   exit: number = 0;
   balance: number = 0;
   balanceStatus = '';
+  options: number = 1;
+  options1 = 'selected';
+  options2 = '';
 
   transationCalc() {
     this.entry = 0;
@@ -42,5 +45,18 @@ export class SummaryComponent {
     if (this.balance > 0) this.balanceStatus = 'values green';
     if (this.balance == 0) this.balanceStatus = 'values';
     if (this.balance < 0) this.balanceStatus = 'values red';
+  }
+
+  changeOption(optionNumber: number) {
+    if (optionNumber == 1) {
+      this.options = 1;
+      this.options1 = 'selected';
+      this.options2 = '';
+    }
+    if (optionNumber == 2) {
+      this.options = 2;
+      this.options2 = 'selected';
+      this.options1 = '';
+    }
   }
 }
