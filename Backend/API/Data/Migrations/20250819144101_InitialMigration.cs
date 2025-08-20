@@ -1,14 +1,12 @@
-﻿
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-
 
 #nullable disable
 
-namespace PersonTransaction.Data.Migration
+namespace PersonTransaction.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreation : Microsoft.EntityFrameworkCore.Migrations.Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

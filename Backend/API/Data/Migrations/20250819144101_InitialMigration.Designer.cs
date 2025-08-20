@@ -9,11 +9,11 @@ using Person.Data;
 
 #nullable disable
 
-namespace PersonTransaction.Data.Migration
+namespace PersonTransaction.Data.Migrations
 {
     [DbContext(typeof(PersonTransactionContext))]
-    [Migration("20250812212749_InitialCreation")]
-    partial class InitialCreation
+    [Migration("20250819144101_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

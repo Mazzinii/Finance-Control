@@ -75,7 +75,9 @@ if (applyMigration)
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<PersonTransactionContext>();
-        await dbContext.Database.MigrateAsync();
+
+        // Use Migrate for verify if database alredy exist
+        dbContext.Database.Migrate();
     }
 }
 app.Run();

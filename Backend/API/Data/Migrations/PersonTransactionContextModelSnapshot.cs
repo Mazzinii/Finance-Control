@@ -8,7 +8,7 @@ using Person.Data;
 
 #nullable disable
 
-namespace PersonTransaction.Data.Migration
+namespace PersonTransaction.Data.Migrations
 {
     [DbContext(typeof(PersonTransactionContext))]
     partial class PersonTransactionContextModelSnapshot : ModelSnapshot
