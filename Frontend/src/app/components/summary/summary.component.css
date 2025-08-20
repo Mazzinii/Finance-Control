@@ -51,6 +51,9 @@
   }
 }
 
+.graphic {
+  width: 500px;
+}
 .scroll {
   display: flex;
   gap: 0.3rem;
