@@ -29,7 +29,7 @@ export class SummaryComponent {
   dates: [] = [];
   // Pegar as entradas no mes específico
   // Pegar as saidas no mes específico
-  // separar dados por dicionario Ex Mes[TotalEntradas,TotalSaidas ]
+  // separar dados por dicionario Ex Mes[TotalEntradas,TotalSaidas]
   entry: number = 0;
   exit: number = 0;
   balance: number = 0;
@@ -77,18 +77,36 @@ export class SummaryComponent {
 
   // Graphics
   chartOption: EChartsCoreOption = {
+    animationDelay: 9000,
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+      },
+    },
+    legend: {
+      data: ['Entrada', 'Saída'],
+    },
     xAxis: {
       type: 'category',
-      data: this.transations.length,
+      data: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        name: 'Vendas',
-        data: [820, 932, 901],
+        name: 'Entrada',
+        data: [820, 550, 945, 932],
         type: 'bar',
+        color: '#4caf50',
+        barGap: 0,
+      },
+      {
+        name: 'Saída',
+        data: [500, 300, 645, 245],
+        type: 'bar',
+        color: '#CC0000',
       },
     ],
   };
