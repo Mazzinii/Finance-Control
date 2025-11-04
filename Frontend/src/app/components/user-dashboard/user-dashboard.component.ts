@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { SummaryComponent } from '../summary/summary.component';
 import { TransationService } from '../../services/transation.service';
-import { Transation } from '../../models/transation.model';
+import { Transation } from '../../models/transaction.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../../models/loginResponse.model';
@@ -146,7 +146,6 @@ export class UserDashboardComponent {
       )
       .subscribe((transations) => {
         this.transations = this.transationAscDate(transations) || [];
-        console.log(transations[0].date);
       });
   }
 

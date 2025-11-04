@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Transation } from '../../models/transation.model';
+import { Transation } from '../../models/transaction.model';
 import { CommonModule } from '@angular/common';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts/core';
@@ -7,6 +7,7 @@ import { BarChart } from 'echarts/charts';
 import { GridComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsCoreOption } from 'echarts/core';
+import { Graphic } from '../../models/transactionGraphics.model';
 echarts.use([BarChart, GridComponent, CanvasRenderer]);
 
 @Component({
@@ -26,7 +27,7 @@ export class SummaryComponent {
   @Input() transations: Transation[] = [];
 
   // Pegar as os meses que são diferentes e escrever por extenso
-  dates: [] = [];
+  graphic: Graphic[] = [];
   // Pegar as entradas no mes específico
   // Pegar as saidas no mes específico
   // separar dados por dicionario Ex Mes[TotalEntradas,TotalSaidas]
@@ -74,6 +75,39 @@ export class SummaryComponent {
       this.options1 = '';
     }
   }
+
+  /*monthCalc(){
+   // percorrer lista de transaçao 
+   // adiconar todos os meses em um array 
+   // adicionr o valor se for entrada ou saida
+   //  
+  }
+  */
+
+  /*
+  graphicCalc() {
+    this.transations.forEach(
+      (transation: Transation, index: number, array: Transation[]) => {
+        var date = new Date(transation.date);
+        var monyhNumber = 
+        var monthName: string = date.toLocaleString('default', {
+          month: 'long',
+        });
+
+        //calcular total de entrada e saida do mes
+
+        //colocar os meses em um array
+        var months: Graphic[] = [];
+
+        for (let index = 0; index < months.length; index++) {}
+        if (months[index].month)
+          //cada mes deve ter uma chave de entrada e saida
+
+          console.log(monthName);
+      }
+    );
+  }
+ */
 
   // Graphics
   chartOption: EChartsCoreOption = {

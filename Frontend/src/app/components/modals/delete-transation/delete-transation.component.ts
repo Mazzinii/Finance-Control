@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Transation } from '../../../models/transation.model';
+import { Transation } from '../../../models/transaction.model';
 
 @Component({
   selector: 'app-delete-transation',
